@@ -16,29 +16,18 @@ class HomePage extends StatelessWidget {
           centerTitle: true,
           title: Image.asset(
             'assets/icons/yomiru_icon.png',
-            width: 24,
-            height: 24,
+            width: 48,
+            height: 48,
           ),
+          bottom: const TabBar(
+            tabs: <Widget>[
+              Tab(text: 'Time Line'),
+              Tab(text: 'Summary'),
+            ]
+          )
         ),
         body: Column(
             children: [
-              Container(
-                height: 30,
-                color: Colors.white, 
-                child: TabBar(
-                  labelColor: Colors.black,
-                  unselectedLabelColor: Colors.black,
-                  indicator: BoxDecoration(
-                    color: Colors.yellow[300],
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  indicatorSize: TabBarIndicatorSize.tab,
-                  tabs: [
-                    Tab(text: 'Time Line'),
-                    Tab(text: 'Summary'),
-                  ],
-                ),
-              ),
               Expanded(
                 child: TabBarView(
                   children: [
@@ -48,6 +37,16 @@ class HomePage extends StatelessWidget {
                 )
               )
             ],
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          items: [
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'home'),
+            BottomNavigationBarItem(icon: Icon(Icons.menu_book), label: 'My books'),
+            BottomNavigationBarItem(icon: Icon(Icons.people_outline), label: 'Friends'),
+            BottomNavigationBarItem(icon: Icon(Icons.trending_up_rounded), label: 'Trend'),
+            BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Settings'),
+          ],
         ),
       ),
     );
@@ -60,32 +59,48 @@ class TimeLineListView extends StatelessWidget {
     return ListView.builder(
       itemCount: 5,
       itemBuilder: (context, index){
-        return ListTile(
-          leading: CircleAvatar(
-            backgroundColor: Colors.purple[100],
-            // child: Icon(Icon.person),
+        return Container(
+          child: Column(
+            children: [
+              SizedBox(height: 10),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(width: 10),
+                  CircleAvatar(
+                    backgroundColor: Colors.purple[100],
+                    // child: Icon(Icon.person),
+                  ),
+                  SizedBox(width: 10),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'User Name',
+                        style: TextStyle(
+                          fontSize: 10
+                        ),
+                      ),
+                      Text(
+                        '@userID xxxx/xx/xx',
+                        style: TextStyle(
+                          fontSize: 10
+                        ),
+                      ),
+                    ]
+                  ),
+                  Spacer(),
+                  SizedBox(
+                    width: 100,
+                    height: 200,
+                    child: Card(
+                      color: Colors.grey,
+                    ),
+                  ),
+                ]
+              ),
+            ],
           ),
-          title: Text(
-            'User Name',
-            style: TextStyle(
-              fontSize: 14
-            ),
-          ),
-          subtitle: Text(
-            '@userID xxxx/xx/xx',
-            style: TextStyle(
-              fontSize: 10
-            ),
-          ),
-          trailing: Container(
-            width: 50,
-            height: 70,
-            decoration: BoxDecoration(
-              color: Colors.grey[300],
-              borderRadius: BorderRadius.circular(12),
-            ),
-          ),
-          contentPadding: EdgeInsets.all(8),
         );
       }
     );
