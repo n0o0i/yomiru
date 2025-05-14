@@ -31,8 +31,8 @@ class HomePage extends StatelessWidget {
               Expanded(
                 child: TabBarView(
                   children: [
-                    TimeLineListView(),
-                    Center(child: Text('Summary Page')),
+                    TimeLineView(),
+                    SummmaryView(),
                   ],
                 )
               )
@@ -53,7 +53,7 @@ class HomePage extends StatelessWidget {
   }
 }
 
-class TimeLineListView extends StatelessWidget {
+class TimeLineView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
@@ -103,6 +103,68 @@ class TimeLineListView extends StatelessWidget {
           ),
         );
       }
+    );
+  }
+}
+
+class SummmaryView extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(height: 10),
+          Text(
+            "My books", 
+            style: Theme.of(context).textTheme.titleMedium
+          ),
+          SizedBox(
+            height: 155,
+            child: BookList()
+          ),
+          SizedBox(height: 10),
+          Text(
+            "Friends", 
+            style: Theme.of(context).textTheme.titleMedium
+          ),
+          SizedBox(
+            height: 155,
+            child: BookList()
+          ),
+          SizedBox(height: 10),
+          Text(
+            "Trends", 
+            style: Theme.of(context).textTheme.titleMedium
+          ),
+          SizedBox(
+            height: 155,
+            child: BookList()
+          )
+        ],
+      )
+    );
+  }
+}
+
+class BookList extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return ListView.builder(
+      scrollDirection: Axis.horizontal, 
+      itemCount: 10,
+      itemBuilder: (context, index){
+        return Container(
+          child: SizedBox(
+            width: 80,
+            child: Card(
+              color: Colors.grey,
+            ),
+          ),
+        );
+      },
     );
   }
 }
