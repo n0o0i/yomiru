@@ -108,43 +108,75 @@ class TimeLineView extends StatelessWidget {
 }
 
 class SummmaryView extends StatelessWidget {
+  final List<String> titles = ['My books', 'Friends', 'Trends'];
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return SingleChildScrollView(
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(height: 10),
-          Text(
-            "My books", 
-            style: Theme.of(context).textTheme.titleMedium
-          ),
-          SizedBox(
-            height: 155,
-            child: BookList()
-          ),
-          SizedBox(height: 10),
-          Text(
-            "Friends", 
-            style: Theme.of(context).textTheme.titleMedium
-          ),
-          SizedBox(
-            height: 155,
-            child: BookList()
-          ),
-          SizedBox(height: 10),
-          Text(
-            "Trends", 
-            style: Theme.of(context).textTheme.titleMedium
-          ),
-          SizedBox(
-            height: 155,
-            child: BookList()
-          )
-        ],
-      )
+        children: List.generate(3, (index) {
+          return BookListSection(title: titles[index]);
+        }),
+      ),
     );
+  }
+}
+
+class BookListSection extends StatelessWidget {
+  final String title;
+
+  BookListSection({required this.title});
+
+  @override
+  Widget build(BuildContext context) {
+  final screenHeight = MediaQuery.of(context).size.height;
+    
+    // TODO: implement build
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                SizedBox(width: 10,),
+                Container(
+                  height: screenHeight * 0.05,
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "$title", 
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      fontWeight:FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                Container(
+                  height: screenHeight * 0.05,
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    style: TextStyle(
+                      color: Colors.grey,
+                    ),
+                    "もっと見る >", 
+                  ),
+                ),
+                SizedBox(width: 10,)
+              ],
+            ),
+          ],
+        ),
+        SizedBox(
+          height: screenHeight * 0.18,
+          child: BookList()
+        ),
+      ]
+    );  
   }
 }
 
