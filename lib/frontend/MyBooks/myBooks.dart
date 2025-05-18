@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:yomiru/frontend/shared/booksGridView.dart';
 
-class Mybooks extends StatelessWidget {
+class MyBooks extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

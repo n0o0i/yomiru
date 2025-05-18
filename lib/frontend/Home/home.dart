@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:yomiru/Home/TimeLine.dart';
+import 'package:yomiru/frontend/Home/timeLine.dart';
 import 'package:yomiru/frontend/Home/summary.dart';
 
 class Home extends StatelessWidget {
