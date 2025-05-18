@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:yomiru/shared/booksGridView.dart';
+import 'package:yomiru/frontend/shared/booksGridView.dart';
 
 class Mybooks extends StatelessWidget {
   @override

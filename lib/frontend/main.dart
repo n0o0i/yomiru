@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:yomiru/Home/home.dart';
-import 'package:yomiru/MyBooks/myBooks.dart';
+import 'package:yomiru/frontend/Home/home.dart';
+import 'package:yomiru/frontend/MyBooks/myBooks.dart';
 
 
 void main() {
