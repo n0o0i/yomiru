@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:yomiru/frontend/shared/bookHorizonalList.dart';
+import 'package:yomiru/frontend/Friends/friendDetailsView.dart';
+
 
 class ContentsListView extends StatelessWidget {
   @override
@@ -22,41 +24,86 @@ class ContentsListView extends StatelessWidget {
                     backgroundColor: Colors.purple[100],
                   ),
                   SizedBox(width: 10),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'User Name',
-                        style: TextStyle(
-                          fontSize: 10
-                        ),
-                      ),
-                      Text(
-                        '@userID xxxx/xx/xx',
-                        style: TextStyle(
-                          fontSize: 10
-                        ),
+                  Expanded(
+                    child: Material(
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => FriendDetailsView())
+                          );
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'User Name',
+                                    style: TextStyle(
+                                      fontSize: 10
+                                    ),
+                                  ),
+                                  Text(
+                                    '@userID',
+                                    style: TextStyle(
+                                      fontSize: 10
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Container(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text('following: 100   followed: 100',
+                                    style: TextStyle(
+                                      fontSize: 10
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text('to read: 100   read: 100',
+                                    style: TextStyle(
+                                      fontSize: 10
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                            Container(
+                              child: Row(
+                                children: [
+                                  Container(
+                                    height: screenHeight * 0.05,
+                                    alignment: Alignment.centerRight,
+                                    child: Text(
+                                      style: TextStyle(
+                                        color: Colors.grey,
+                                      ),
+                                      "もっと見る >", 
+                                    ),
+                                  ),
+                                  SizedBox(width: 10,)
+                                ],
+                              ),
+                            ),
+                          ]
+                        )
                       )
-                    ],
+                    ),
                   )
                 ],
               ),
+              SizedBox(height: 5),
               SizedBox(
                 height: screenHeight * 0.17,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal, 
-                  itemCount: 10,
-                  itemBuilder: (context, index){
-                    return Container(
-                      child: SizedBox(
-                        width: 80,
-                        child: Card(
-                          color: Colors.grey,
-                        ),
-                      ),
-                    );
-                  },
-                ),
+                child: BookHorizonaLlist()
               )
             ],
           ) 
