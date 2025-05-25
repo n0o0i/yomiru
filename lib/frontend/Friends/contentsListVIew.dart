@@ -16,89 +16,70 @@ class ContentsListView extends StatelessWidget {
           child: Column(
             children: [
               SizedBox(height: 10),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(width: 10),
-                  CircleAvatar(
-                    backgroundColor: Colors.purple[100],
-                  ),
-                  SizedBox(width: 10),
-                  Expanded(
-                    child: Material(
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => FriendDetailsView())
-                          );
-                        },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'User Name',
-                                    style: TextStyle(
-                                      fontSize: 10
-                                    ),
-                                  ),
-                                  Text(
-                                    '@userID',
-                                    style: TextStyle(
-                                      fontSize: 10
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Container(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text('following: 100   followed: 100',
-                                    style: TextStyle(
-                                      fontSize: 10
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text('to read: 100   read: 100',
-                                    style: TextStyle(
-                                      fontSize: 10
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                            Container(
-                              child: Row(
-                                children: [
-                                  Container(
-                                    height: screenHeight * 0.05,
-                                    alignment: Alignment.centerRight,
-                                    child: Text(
-                                      style: TextStyle(
-                                        color: Colors.grey,
-                                      ),
-                                      "もっと見る >", 
-                                    ),
-                                  ),
-                                  SizedBox(width: 10,)
-                                ],
-                              ),
-                            ),
-                          ]
-                        )
-                      )
+              Material( 
+                child:InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => FriendDetailsView())
+                  );
+                },
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(width: 10),
+                    CircleAvatar(
+                      backgroundColor: Colors.purple[100],
                     ),
-                  )
-                ],
+                    SizedBox(width: 10),
+                    Expanded(
+                      child: Material(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'User Name',
+                                      style: TextStyle(
+                                        fontSize: 10
+                                      ),
+                                    ),
+                                    Text(
+                                      '@userID',
+                                      style: TextStyle(
+                                        fontSize: 10
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      height: screenHeight * 0.05,
+                                      alignment: Alignment.centerRight,
+                                      child: Text(
+                                        style: TextStyle(
+                                          color: Colors.grey,
+                                        ),
+                                        "もっと見る >", 
+                                      ),
+                                    ),
+                                    SizedBox(width: 10,)
+                                  ],
+                                ),
+                              ),
+                            ]
+                          )
+                        )
+                      ),
+                    ],
+                  ),
+                ),
               ),
               SizedBox(height: 5),
               SizedBox(
