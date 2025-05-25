@@ -10,11 +10,14 @@ class Home extends StatelessWidget {
       length: 2,
       child: Column(
         children: [
-          const TabBar(
-            tabs: <Widget>[
-              Tab(text: 'Time Line'),
-              Tab(text: 'Summary'),
-            ]
+          SizedBox(
+            height: 30,
+            child: const TabBar(
+              tabs: <Widget>[
+                Tab(text: 'Time Line'),
+                Tab(text: 'Summary'),
+              ]
+            ),
           ),
           Expanded(
             child: TabBarView(

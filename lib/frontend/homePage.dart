@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:yomiru/frontend/Home/home.dart';
 import 'package:yomiru/frontend/MyBooks/myBooks.dart';
 import 'package:yomiru/frontend/Friends/friends.dart';
+import 'package:yomiru/frontend/Trend/trend.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -15,7 +16,7 @@ final List<Widget> _pages = [
   Home(),
   MyBooks(),
   Friends(),
-  MyBooks(),
+  Trend(),
   MyBooks(),
 ];
 

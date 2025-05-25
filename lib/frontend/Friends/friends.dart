@@ -9,11 +9,14 @@ class Friends extends StatelessWidget {
       length: 2, 
       child: Column(
         children: [
-          const TabBar(
-            tabs: <Widget>[
-              Tab(text: 'Contents List'),
-              Tab(text: 'Users List')
-            ], 
+          SizedBox(
+            height: 30,
+            child: const TabBar(
+              tabs: <Widget>[
+                Tab(text: 'Contents List'),
+                Tab(text: 'Users List')
+              ], 
+            ),
           ),
           Expanded(
             child: TabBarView(
