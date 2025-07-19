@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:yomiru/frontend/shared/bookHorizonalList.dart';
+import 'package:yomiru/frontend/shared/strings.dart';
 
 class BookListSection extends StatelessWidget {
   final String title;
@@ -41,7 +42,7 @@ class BookListSection extends StatelessWidget {
                     style: TextStyle(
                       color: Colors.grey,
                     ),
-                    "もっと見る >", 
+                    AppStrings.bookListSectionListMore , 
                   ),
                 ),
                 SizedBox(width: 10,)

@@ -24,8 +24,10 @@ class MyBooks extends StatelessWidget {
                 Container(
                   decoration: BoxDecoration(
                     border: Border(
-                      bottom: BorderSide()
-                    )
+                      bottom: BorderSide(
+                        color: Colors.grey
+                      )  
+                    ),
                   ),
                   child: TabBar(
                     dividerColor: Colors.transparent,

@@ -1,0 +1,29 @@
+class AppStrings {
+  // HomePage
+  static const String homePageNavBarHome = 'Home';
+  static const String homePageNavBarMyBooks = 'My books';
+  static const String homePageNavBarFriends = 'Frineds';
+  static const String homePageNavBarTrend = 'Trend';
+  static const String homePageNavBarSettings = 'Settings';
+  // Home
+  static const String homeTabTimeLine = 'Time Line';
+  static const String homeTabSummary = 'Summary';
+  static const String homeSummaryMybooks = 'My books';
+  static const String homeSummaryFriends = 'Friends';
+  static const String homeSummaryTrends = 'Trends';
+  // My books
+  static const String MyBooksTitle = 'My Books';
+  static const String MyBooksTabRead = 'read';
+  static const String MyBooksTabToRead = 'To read';
+  // Friends
+  static const String FriendsTabContentsList = 'Contents List';
+  static const String FriendsTabUserList = 'User List';
+  // Trends
+  static const String TrendsTop = 'Top';
+  static const String TrendsNovel = 'Novel';
+  static const String TrendsBusiness = 'Business';
+  static const String TrendsManga = 'Manga';
+  // Share bookListSectionList
+  static const String bookListSectionListMore = 'もっと見る';
+
+}

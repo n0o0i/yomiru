@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:yomiru/frontend/shared/bookHorizonalList.dart';
 import 'package:yomiru/frontend/Friends/friendDetailsView.dart';
+import 'package:yomiru/frontend/shared/strings.dart';
 
 
 class ContentsListView extends StatelessWidget {
@@ -66,7 +67,7 @@ class ContentsListView extends StatelessWidget {
                                         style: TextStyle(
                                           color: Colors.grey,
                                         ),
-                                        "もっと見る >", 
+                                        AppStrings.bookListSectionListMore, 
                                       ),
                                     ),
                                     SizedBox(width: 10,)

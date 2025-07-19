@@ -30,6 +30,7 @@ void _onItemTapped(int index) {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.white,
         centerTitle: true,
         title: Image.asset(
           'assets/icons/yomiru_icon.png',
