@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:yomiru/frontend/shared/booksGridView.dart';
+import 'package:yomiru/frontend/shared/strings.dart';
 
 class MyBooks extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+  final screenHeight = MediaQuery.of(context).size.height;
+
     return DefaultTabController(
       length: 2,
       child: Column(
@@ -15,9 +18,10 @@ class MyBooks extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'My books',
+                  AppStrings.MyBooksTitle,
                   style: TextStyle(
-                    fontWeight: FontWeight.bold
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
                   ),
                 ),
                 SizedBox(width: 30),
@@ -37,8 +41,8 @@ class MyBooks extends StatelessWidget {
                     isScrollable: true,
                     tabAlignment: TabAlignment.start,
                     tabs: [
-                      Tab(text: 'read'),
-                      Tab(text: 'to read')
+                      Tab(text: AppStrings.MyBooksTabRead),
+                      Tab(text: AppStrings.MyBooksTabToRead)
                     ]
                   )
                 )

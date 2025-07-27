@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:yomiru/frontend/shared/bookListSection.dart';
+import 'package:yomiru/frontend/shared/strings.dart';
 
 class SummmaryView extends StatelessWidget {
-  final List<String> titles = ['My books', 'Friends', 'Trends'];
+  final List<String> titles = [AppStrings.homeSummaryMybooks, AppStrings.homeSummaryFriends, AppStrings.homeSummaryTrends];
 
   @override
   Widget build(BuildContext context) {

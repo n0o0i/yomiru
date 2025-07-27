@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:yomiru/frontend/Home/timeLine.dart';
 import 'package:yomiru/frontend/Home/summary.dart';
+import 'package:yomiru/frontend/shared/strings.dart';
 
 class Home extends StatelessWidget {
   @override
@@ -14,8 +16,8 @@ class Home extends StatelessWidget {
             height: 30,
             child: const TabBar(
               tabs: <Widget>[
-                Tab(text: 'Time Line'),
-                Tab(text: 'Summary'),
+                Tab(text: AppStrings.homeTabTimeLine),
+                Tab(text: AppStrings.homeTabSummary),
               ]
             ),
           ),

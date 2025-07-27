@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:yomiru/frontend/Friends/contentsListVIew.dart';
 import 'package:yomiru/frontend/Friends/userListView.dart';
+import 'package:yomiru/frontend/shared/strings.dart';
 
 class Friends extends StatelessWidget {
   @override
@@ -13,8 +14,8 @@ class Friends extends StatelessWidget {
             height: 30,
             child: const TabBar(
               tabs: <Widget>[
-                Tab(text: 'Contents List'),
-                Tab(text: 'Users List')
+                Tab(text: AppStrings.FriendsTabContentsList),
+                Tab(text: AppStrings.FriendsTabUserList)
               ], 
             ),
           ),

@@ -17,13 +17,13 @@ class AppStrings {
   static const String MyBooksTabToRead = 'To read';
   // Friends
   static const String FriendsTabContentsList = 'Contents List';
-  static const String FriendsTabUserList = 'User List';
+  static const String FriendsTabUserList = 'Friends List';
   // Trends
   static const String TrendsTop = 'Top';
   static const String TrendsNovel = 'Novel';
   static const String TrendsBusiness = 'Business';
   static const String TrendsManga = 'Manga';
   // Share bookListSectionList
-  static const String bookListSectionListMore = 'もっと見る';
+  static const String bookListSectionListMore = 'もっと見る >';
 
 }

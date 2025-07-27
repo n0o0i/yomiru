@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:yomiru/frontend/shared/bookListSection.dart';
+import 'package:yomiru/frontend/shared/strings.dart';
 
 class Trend extends StatelessWidget {
-  final List<String> titles = ['Top', 'nobel', 'Business', 'manga'];
+  final List<String> titles = [
+    AppStrings.TrendsTop,
+    AppStrings.TrendsNovel,
+    AppStrings.TrendsBusiness,
+    AppStrings.TrendsManga
+  ];
 
   @override
   Widget build(BuildContext context) {
