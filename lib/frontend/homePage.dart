@@ -3,6 +3,7 @@ import 'package:yomiru/frontend/Home/home.dart';
 import 'package:yomiru/frontend/MyBooks/myBooks.dart';
 import 'package:yomiru/frontend/Friends/friends.dart';
 import 'package:yomiru/frontend/Trend/trend.dart';
+import 'package:yomiru/frontend/Settings/settingsHome.dart';
 import 'package:yomiru/frontend/shared/strings.dart';
 
 
@@ -19,7 +20,7 @@ final List<Widget> _pages = [
   MyBooks(),
   Friends(),
   Trend(),
-  MyBooks(),
+  SettingsHome(),
 ];
 
 void _onItemTapped(int index) {

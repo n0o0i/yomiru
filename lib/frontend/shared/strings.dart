@@ -25,5 +25,13 @@ class AppStrings {
   static const String TrendsManga = 'Manga';
   // Share bookListSectionList
   static const String bookListSectionListMore = 'もっと見る >';
+  // Settings
+  static const String Settings = 'Settings';
+  static const String SettingsAccountSetting = 'アカウント設定';
+  static const String SettingsTheme = 'テーマ切り替え';
+  static const String SettingsNotification = '通知ON/OFF';
+  static const String SettingsAppInfo = 'アプリ情報';
+  static const String SettingsLogout = 'ログアウト';
+  
 
 }
