@@ -13,12 +13,23 @@ class Trend extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return SingleChildScrollView(
-      child: Column(
-        children: List.generate(4, (index) {
-          return BookListSection(title: titles[index]);
-        }), 
+    return Scaffold(
+      appBar: AppBar(
+        // backgroundColor: Colors.white,
+        centerTitle: true,
+        title: Image.asset(
+          'assets/icons/yomiru_icon.png',
+          width: 48,
+          height: 48,
+        ),
       ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: List.generate(4, (index) {
+            return BookListSection(title: titles[index]);
+          }), 
+        ),
+      )
     );
   }
 }

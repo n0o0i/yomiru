@@ -7,58 +7,37 @@ class MyBooks extends StatelessWidget {
   Widget build(BuildContext context) {
   final screenHeight = MediaQuery.of(context).size.height;
 
-    return DefaultTabController(
-      length: 2,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  AppStrings.MyBooksTitle,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                  ),
-                ),
-                SizedBox(width: 30),
-                Container(
-                  decoration: BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(
-                        color: Colors.grey
-                      )  
-                    ),
-                  ),
-                  child: TabBar(
-                    dividerColor: Colors.transparent,
-                    indicatorColor: Colors.deepPurple,
-                    labelColor: Colors.deepPurple,
-                    unselectedLabelColor: Colors.grey,
-                    isScrollable: true,
-                    tabAlignment: TabAlignment.start,
-                    tabs: [
-                      Tab(text: AppStrings.MyBooksTabRead),
-                      Tab(text: AppStrings.MyBooksTabToRead)
-                    ]
-                  )
-                )
-              ]
-            )
-          ),
-          Expanded(
-              child: TabBarView(
-                children: [
-                  booksGridView(),
-                  booksGridView(),
+    return Scaffold(
+      appBar: AppBar(
+        // backgroundColor: Colors.white,
+        centerTitle: true,
+        title: Text(AppStrings.MyBooksTitle),
+      ),
+      body: DefaultTabController(
+        length: 2,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              height: 30,
+              child: TabBar(
+                tabs: [
+                  Tab(text: AppStrings.MyBooksTabRead),
+                  Tab(text: AppStrings.MyBooksTabToRead)
                 ]
+              ),
+            ),
+            Expanded(
+                child: TabBarView(
+                  children: [
+                    booksGridView(),
+                    booksGridView(),
+                  ]
 
-              )
-          )
-        ]
+                )
+            )
+          ]
+        )
       )
     ); 
   }

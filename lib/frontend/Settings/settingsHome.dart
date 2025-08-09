@@ -1,5 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:yomiru/frontend/shared/strings.dart';
+import 'package:yomiru/frontend/Settings/accoutSettings.dart';
 
 class SettingsHome extends StatefulWidget {
   @override
@@ -7,8 +9,21 @@ class SettingsHome extends StatefulWidget {
 }
 
 class _SettingsHomeState extends State<SettingsHome> {
+  int _selectedIndex = 0;
   bool _isThemeLight = true;
   bool _notificationEnable = true;
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  void _onBack() {
+    setState(() {
+      _selectedIndex = 0;
+    });
+  }
 
   void _switchTheme() {
     setState(() {
@@ -22,11 +37,12 @@ class _SettingsHomeState extends State<SettingsHome> {
     });
   }
 
-  
-
   @override
   Widget build(BuildContext context) {
-  final screenHeight = MediaQuery.of(context).size.height;
+    final List<Widget> _bodies = [
+      settingsHome(),
+      AccountSettings(),
+    ];
 
     return Scaffold(
       appBar: AppBar(
@@ -36,9 +52,23 @@ class _SettingsHomeState extends State<SettingsHome> {
             fontWeight: FontWeight.bold,
             fontSize: 30
           ),
-          ),
-        centerTitle: false,
+        ),
+        leading: _selectedIndex == 1
+        ? IconButton(
+          onPressed: _onBack, 
+          icon: Icon(Icons.arrow_back_ios_new_outlined)
+        ) 
+        : null,
+        centerTitle: true,
       ),
+      body: _bodies[_selectedIndex],
+    );
+  }
+
+  Widget settingsHome() {
+    final screenHeight = MediaQuery.of(context).size.height;
+
+    return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -48,6 +78,9 @@ class _SettingsHomeState extends State<SettingsHome> {
               leading: Icon(Icons.person),
               title: Text(AppStrings.SettingsAccountSetting),
               trailing: Icon(Icons.arrow_forward_ios, size: 16,),
+              onTap: () {
+                _onItemTapped(1);
+              },
             ),
             Divider(),
             ListTile(

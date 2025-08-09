@@ -13,7 +13,7 @@ class AppStrings {
   static const String homeSummaryTrends = 'Trends';
   // My books
   static const String MyBooksTitle = 'My Books';
-  static const String MyBooksTabRead = 'read';
+  static const String MyBooksTabRead = 'Read';
   static const String MyBooksTabToRead = 'To read';
   // Friends
   static const String FriendsTabContentsList = 'Contents List';

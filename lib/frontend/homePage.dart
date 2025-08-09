@@ -13,34 +13,25 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-int _selectedIndex = 0;
+  int _selectedIndex = 0;
 
-final List<Widget> _pages = [
-  Home(),
-  MyBooks(),
-  Friends(),
-  Trend(),
-  SettingsHome(),
-];
+  final List<Widget> _pages = [
+    Home(),
+    MyBooks(),
+    Friends(),
+    Trend(),
+    SettingsHome(),
+  ];
 
-void _onItemTapped(int index) {
-  setState(() {
-    _selectedIndex = index;
-  });
-}
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        // backgroundColor: Colors.white,
-        centerTitle: true,
-        title: Image.asset(
-          'assets/icons/yomiru_icon.png',
-          width: 48,
-          height: 48,
-        ),
-      ),
       body:  _pages[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
