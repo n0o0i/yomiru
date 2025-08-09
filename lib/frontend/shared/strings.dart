@@ -32,6 +32,10 @@ class AppStrings {
   static const String SettingsNotification = '通知ON/OFF';
   static const String SettingsAppInfo = 'アプリ情報';
   static const String SettingsLogout = 'ログアウト';
-  
+  // AccoutSetting
+  static const String AccoutSettingsEditProfile = 'プロフィール編集';
+  static const String AccoutSettingsEditPassword = 'パスワード変更';
+  static const String AccoutSettingsTagsPrivacy = 'タグの公開範囲';
+  static const String AccoutSettingsDeliteAccout = 'アカウント削除';
 
 }

@@ -33,7 +33,6 @@ class MyBooks extends StatelessWidget {
                     booksGridView(),
                     booksGridView(),
                   ]
-
                 )
             )
           ]

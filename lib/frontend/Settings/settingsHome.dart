@@ -13,15 +13,9 @@ class _SettingsHomeState extends State<SettingsHome> {
   bool _isThemeLight = true;
   bool _notificationEnable = true;
 
-  void _onItemTapped(int index) {
+  void _switchBosy() {
     setState(() {
-      _selectedIndex = index;
-    });
-  }
-
-  void _onBack() {
-    setState(() {
-      _selectedIndex = 0;
+      _selectedIndex = _selectedIndex == 0 ? 1 : 0;
     });
   }
 
@@ -55,13 +49,13 @@ class _SettingsHomeState extends State<SettingsHome> {
         ),
         leading: _selectedIndex == 1
         ? IconButton(
-          onPressed: _onBack, 
+          onPressed: _switchBosy, 
           icon: Icon(Icons.arrow_back_ios_new_outlined)
         ) 
         : null,
         centerTitle: true,
       ),
-      body: _bodies[_selectedIndex],
+      body:  _bodies[_selectedIndex],
     );
   }
 
@@ -78,9 +72,7 @@ class _SettingsHomeState extends State<SettingsHome> {
               leading: Icon(Icons.person),
               title: Text(AppStrings.SettingsAccountSetting),
               trailing: Icon(Icons.arrow_forward_ios, size: 16,),
-              onTap: () {
-                _onItemTapped(1);
-              },
+              onTap: _switchBosy,
             ),
             Divider(),
             ListTile(
