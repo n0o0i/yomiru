@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:yomiru/frontend/shared/strings.dart';
+import 'package:yomiru/frontend/Settings/profileEditModal.dart';
+import 'package:yomiru/frontend/Settings/passwordEditModal.dart';
+import 'package:yomiru/frontend/Settings/tagPrivacy.dart';
 
 class AccountSettings extends StatelessWidget {
 
@@ -51,14 +54,35 @@ class AccountSettings extends StatelessWidget {
                       Divider(),
                       ListTile(
                         title: Text(AppStrings.AccoutSettingsEditProfile),
+                        onTap: () {
+                          showModalBottomSheet(
+                            context: context,
+                            isScrollControlled: true, 
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+                            ),
+                            builder: (context) => ProfileEditModal(),
+                          );
+                        },
                       ),
                       Divider(),
                       ListTile(
                         title: Text(AppStrings.AccoutSettingsEditPassword),
+                        onTap: () {
+                          showModalBottomSheet(
+                            context: context,
+                            isScrollControlled: true, 
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+                            ),
+                            builder: (context) => PasswordEditModal(),
+                          );
+                        },                        
                       ),
                       Divider(),
                       ListTile(
                         title: Text(AppStrings.AccoutSettingsTagsPrivacy),
+                        trailing: TagPrivacy(),
                       ),
                       Divider(),
                       ListTile(
