@@ -37,7 +37,14 @@ class MyBooks extends StatelessWidget {
             )
           ]
         )
-      )
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          print('pressed');
+        },
+        child: Icon(Icons.add),
+        backgroundColor: Colors.white,
+      ),
     ); 
   }
 }
