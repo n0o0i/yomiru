@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yomiru/frontend/shared/bookDetails copy.dart';
 
 class booksGridView extends StatelessWidget {
   @override
@@ -12,8 +13,17 @@ class booksGridView extends StatelessWidget {
       ),
       itemCount: 50,
       itemBuilder: (context, Index) {
-        return Card(
-          color: Colors.grey,
+        return InkWell(
+          onTap: () {
+            Navigator.push(
+              context, 
+              // MaterialPageRoute(builder: (context) => Bookdetails())
+              MaterialPageRoute(builder: (context) => ShrinkingWidget())
+            );
+          },
+          child: Card(
+            color: Colors.grey,            
+          )
         );
       }
     );
