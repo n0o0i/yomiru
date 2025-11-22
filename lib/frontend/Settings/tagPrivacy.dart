@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:yomiru/frontend/shared/strings.dart';
 
 class TagPrivacy extends StatefulWidget {
+  const TagPrivacy({super.key});
+
   @override
   _TagPrivacyState createState() => _TagPrivacyState();
 }

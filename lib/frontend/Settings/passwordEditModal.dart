@@ -3,6 +3,8 @@ import 'package:flutter/rendering.dart';
 import 'package:yomiru/frontend/shared/strings.dart';
 
 class PasswordEditModal extends StatefulWidget {
+  const PasswordEditModal({super.key});
+
   @override
   _ProfileEditModal createState() => _ProfileEditModal();
 }

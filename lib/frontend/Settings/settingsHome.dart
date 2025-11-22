@@ -4,6 +4,8 @@ import 'package:yomiru/frontend/shared/strings.dart';
 import 'package:yomiru/frontend/Settings/accoutSettings.dart';
 
 class SettingsHome extends StatefulWidget {
+  const SettingsHome({super.key});
+
   @override
   _SettingsHomeState createState() => _SettingsHomeState();
 }
@@ -33,7 +35,7 @@ class _SettingsHomeState extends State<SettingsHome> {
 
   @override
   Widget build(BuildContext context) {
-    final List<Widget> _bodies = [
+    final List<Widget> bodies = [
       settingsHome(),
       AccountSettings(),
     ];
@@ -55,7 +57,7 @@ class _SettingsHomeState extends State<SettingsHome> {
         : null,
         centerTitle: true,
       ),
-      body:  _bodies[_selectedIndex],
+      body:  bodies[_selectedIndex],
     );
   }
 

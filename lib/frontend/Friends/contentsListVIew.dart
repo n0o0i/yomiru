@@ -5,11 +5,10 @@ import 'package:yomiru/frontend/shared/strings.dart';
 
 
 class ContentsListView extends StatelessWidget {
+  const ContentsListView({super.key});
+
   @override
   Widget build(BuildContext context) {
-    final screenHeight = MediaQuery.of(context).size.height;
-
-    // TODO: implement build
     return ListView.builder(
       itemCount: 30,
       itemBuilder: (context, index) {
@@ -61,13 +60,12 @@ class ContentsListView extends StatelessWidget {
                                 child: Row(
                                   children: [
                                     Container(
-                                      height: screenHeight * 0.05,
                                       alignment: Alignment.centerRight,
                                       child: Text(
+                                        AppStrings.bookListSectionListMore,
                                         style: TextStyle(
                                           color: Colors.grey,
                                         ),
-                                        AppStrings.bookListSectionListMore, 
                                       ),
                                     ),
                                     SizedBox(width: 10,)
@@ -84,7 +82,7 @@ class ContentsListView extends StatelessWidget {
               ),
               SizedBox(height: 5),
               SizedBox(
-                height: screenHeight * 0.17,
+                height: 120,
                 child: BookHorizonaLlist()
               )
             ],

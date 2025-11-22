@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:yomiru/frontend/shared/booksGridView.dart';
 
 class FriendDetailsView extends StatelessWidget {
+  const FriendDetailsView({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

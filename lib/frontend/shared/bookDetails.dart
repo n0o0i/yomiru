@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class ShrinkingWidget extends StatefulWidget {
+  const ShrinkingWidget({super.key});
+
   @override
   _ShrinkingWidgetState createState() => _ShrinkingWidgetState();
 }
@@ -50,7 +52,7 @@ class _ShrinkingWidgetState extends State<ShrinkingWidget> {
                 ),
               ),
             ),
-            Container(
+            SizedBox(
               height: 1000,
               child: ListView(
                 padding: EdgeInsets.all(16),

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:yomiru/frontend/Friends/friendDetailsView.dart';
 
 class UserListView extends StatelessWidget {
+  const UserListView({super.key});
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build

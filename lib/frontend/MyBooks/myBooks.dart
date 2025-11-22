@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:yomiru/frontend/shared/booksGridView.dart';
 import 'package:yomiru/frontend/shared/strings.dart';
+import 'package:yomiru/frontend/MyBooks/addBookPage.dart';
+import 'package:yomiru/frontend/MyBooks/bookSearchPage.dart';
 
 class MyBooks extends StatelessWidget {
+  const MyBooks({super.key});
+
   @override
   Widget build(BuildContext context) {
-  final screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
       appBar: AppBar(
-        // backgroundColor: Colors.white,
         centerTitle: true,
         title: Text(AppStrings.MyBooksTitle),
       ),
@@ -38,12 +40,33 @@ class MyBooks extends StatelessWidget {
           ]
         )
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          print('pressed');
-        },
-        child: Icon(Icons.add),
-        backgroundColor: Colors.white,
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          FloatingActionButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => BookSearchPage())
+              );
+            },
+            backgroundColor: Theme.of(context).colorScheme.secondary,
+            heroTag: "search",
+            child: Icon(Icons.search),
+          ),
+          SizedBox(height: 8),
+          FloatingActionButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => AddBookPage())
+              );
+            },
+            backgroundColor: Theme.of(context).colorScheme.primary,
+            heroTag: "add",
+            child: Icon(Icons.add),
+          ),
+        ],
       ),
     ); 
   }

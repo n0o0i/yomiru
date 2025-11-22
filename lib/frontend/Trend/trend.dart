@@ -15,7 +15,6 @@ class Trend extends StatelessWidget {
     // TODO: implement build
     return Scaffold(
       appBar: AppBar(
-        // backgroundColor: Colors.white,
         centerTitle: true,
         title: Image.asset(
           'assets/icons/yomiru_icon.png',
@@ -24,9 +23,13 @@ class Trend extends StatelessWidget {
         ),
       ),
       body: SingleChildScrollView(
+        padding: EdgeInsets.zero,
         child: Column(
           children: List.generate(4, (index) {
-            return BookListSection(title: titles[index]);
+            return BookListSection(
+              title: titles[index],
+              isLast: index == 3, // 最後のセクションかどうか
+            );
           }), 
         ),
       )

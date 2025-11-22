@@ -4,14 +4,12 @@ import 'package:yomiru/frontend/shared/strings.dart';
 
 class BookListSection extends StatelessWidget {
   final String title;
+  final bool isLast;
 
-  BookListSection({required this.title});
+  const BookListSection({super.key, required this.title, this.isLast = false});
 
   @override
   Widget build(BuildContext context) {
-  final screenHeight = MediaQuery.of(context).size.height;
-    
-    // TODO: implement build
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -22,10 +20,9 @@ class BookListSection extends StatelessWidget {
               children: [
                 SizedBox(width: 10,),
                 Container(
-                  height: screenHeight * 0.05,
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "$title", 
+                    title, 
                     style: Theme.of(context).textTheme.titleLarge?.copyWith(
                       fontWeight:FontWeight.bold,
                     ),
@@ -36,13 +33,12 @@ class BookListSection extends StatelessWidget {
             Row(
               children: [
                 Container(
-                  height: screenHeight * 0.05,
                   alignment: Alignment.centerRight,
                   child: Text(
+                    AppStrings.bookListSectionListMore,
                     style: TextStyle(
                       color: Colors.grey,
                     ),
-                    AppStrings.bookListSectionListMore , 
                   ),
                 ),
                 SizedBox(width: 10,)
@@ -51,9 +47,10 @@ class BookListSection extends StatelessWidget {
           ],
         ),
         SizedBox(
-          height: screenHeight * 0.18,
+          height: 120,
           child: BookHorizonaLlist()
         ),
+        if (!isLast) SizedBox(height: 20), // 最後のセクション以外のみ余白を追加
       ]
     );  
   }

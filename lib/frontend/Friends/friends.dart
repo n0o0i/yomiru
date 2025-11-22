@@ -4,11 +4,12 @@ import 'package:yomiru/frontend/Friends/userListView.dart';
 import 'package:yomiru/frontend/shared/strings.dart';
 
 class Friends extends StatelessWidget {
+  const Friends({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // backgroundColor: Colors.white,
         centerTitle: true,
         title: Image.asset(
           'assets/icons/yomiru_icon.png',

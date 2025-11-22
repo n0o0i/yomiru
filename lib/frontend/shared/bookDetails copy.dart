@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class ShrinkingWidget extends StatefulWidget {
+  const ShrinkingWidget({super.key});
+
   @override
   _ShrinkingWidgetState createState() => _ShrinkingWidgetState();
 }
@@ -62,13 +64,13 @@ class _ShrinkingWidgetState extends State<ShrinkingWidget> {
         actions: [
           IconButton(
             onPressed: (){
-              print('added');
+              // TODO: ブックマーク追加機能を実装
             }, 
             icon: Icon(Icons.bookmark_added_outlined)
           ),
           IconButton(
             onPressed: (){
-              print('add');
+              // TODO: ブックマーク機能を実装
             }, 
             icon: Icon(Icons.bookmark_add_outlined)
           )
@@ -81,22 +83,23 @@ class _ShrinkingWidgetState extends State<ShrinkingWidget> {
             Transform.scale(
               scale: _scale,
               child: SizedBox(
-                height: 400,
+                height: 300,
                 width: 200,
                 child: Card(
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(25)
+                    borderRadius: BorderRadius.circular(8)
                   ),
-                  color: Colors.grey,
+                  color: Theme.of(context).colorScheme.surface,
                   )
               ),
             ),
+            SizedBox(height: 20), // Transform.scaleの下の余白を追加
             Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(40),
                 border: Border(
                   top: BorderSide(
-                    color: Colors.grey,
+                    color: Theme.of(context).colorScheme.outline,
                   ),
                 )
               ),
@@ -120,9 +123,8 @@ class _ShrinkingWidgetState extends State<ShrinkingWidget> {
                         ? RatingBar.builder(
                             itemBuilder: (context, index) => const Icon(Icons.star), 
                             onRatingUpdate: (rating) {
-                              // function to input rating to DB
+                              // TODO: 評価をデータベースに保存
                             },
-                            // initialRating: 2, #######FIX ME
                             allowHalfRating: true,
                           )
                         : Text(detailContents[index]),

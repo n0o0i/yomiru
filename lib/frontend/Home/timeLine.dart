@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:yomiru/frontend/shared/bookDetails copy.dart';
 
 class TimeLineView extends StatelessWidget {
+  const TimeLineView({super.key});
+
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
@@ -37,11 +40,22 @@ class TimeLineView extends StatelessWidget {
                     ]
                   ),
                   Spacer(),
-                  SizedBox(
-                    width: 100,
-                    height: 200,
-                    child: Card(
-                      color: Colors.grey,
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => ShrinkingWidget())
+                      );
+                    },
+                    child: SizedBox(
+                      width: 80,
+                      height: 120,
+                      child: Card(
+                        color: Theme.of(context).colorScheme.surface,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
                     ),
                   ),
                 ]

@@ -5,6 +5,8 @@ import 'package:yomiru/frontend/Settings/passwordEditModal.dart';
 import 'package:yomiru/frontend/Settings/tagPrivacy.dart';
 
 class AccountSettings extends StatelessWidget {
+  const AccountSettings({super.key});
+
 
   @override
   Widget build(BuildContext context) {
