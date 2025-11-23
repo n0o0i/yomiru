@@ -2,10 +2,12 @@ import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
-import dotenv from 'dotenv';
+import * as dotenv from 'dotenv';
 import { bookRoutes } from './routes/bookRoutes';
 import { googleBooksRoutes } from './routes/googleBooksRoutes';
 import { errorHandler } from './middleware/errorHandler';
+import authRoutes from './routes/auth';
+import mybooksRoutes from './routes/mybooks';
 
 // 環境変数を読み込み
 dotenv.config();
@@ -21,11 +23,13 @@ app.use(express.json()); // JSONパーサー
 app.use(express.urlencoded({ extended: true })); // URLエンコードパーサー
 
 // ルートの設定
+app.use('/api/v1/auth', authRoutes);
 app.use('/api/books', bookRoutes);
 app.use('/api/google-books', googleBooksRoutes);
+app.use('/api/v1/mybooks', mybooksRoutes);
 
 // ヘルスチェックエンドポイント
-app.get('/health', (req, res) => {
+app.get('/api/v1/health', (req, res) => {
   res.status(200).json({
     status: 'OK',
     message: 'Yomiru Backend API is running',
