@@ -32,7 +32,7 @@ export const protect = async (req: Request, res: Response, next: NextFunction) =
 
         // ユーザーデータをリクエストオブジェクトに添付
         req.user = data.user;
-        next();
+        return next();
     } catch (error) {
         console.error('Token validation server error: ', error);
         return res.status(500).json({ message: 'Server error during token validation' });

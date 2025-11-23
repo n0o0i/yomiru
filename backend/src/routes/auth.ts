@@ -10,7 +10,7 @@ router.post('/signup', async (req, res) => {
     const { data, error } = await supabase.auth.signUp({
         email,
         password,
-        options : {emailRedirectTo: 'http://localhost:8080/auth/callback'}
+        options : {emailRedirectTo: 'http://localhost:3000/api/v1/auth/callback'}
     });
 
     if (error) {
@@ -40,6 +40,11 @@ router.post('/login', async (req, res) => {
         message: 'Login successful.',
         session: data.session
     });
+});
+
+// GET /api/v1/auth/callback
+router.get('/callback', async (req, res) => {
+    return res.status(200).send('Email confirmation successful! You can now close this window and return to the app.');
 });
 
 export default router;
