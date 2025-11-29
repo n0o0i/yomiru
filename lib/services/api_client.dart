@@ -24,8 +24,6 @@ class ApiClient {
     // return base.endsWith('/v1') ? base : '$base/v1';
   }
 
-
-
   // static const String _baseUrl = 'http://10.0.2.2:3000/api/v1';// ★ エミュレータからPCのローカルホストにアクセスするためのIP
   // final Dio _dio = Dio(BaseOptions(baseUrl: _baseUrl));
   final _strage = const FlutterSecureStorage();
@@ -48,7 +46,7 @@ class ApiClient {
     ));
   }
 
-  Future<void> signIn(String email, String password) async {
+  Future<void> login(String email, String password) async {
       final response = await _dio.post('/auth/login', data: {
         'email': email,
         'password': password,
@@ -56,8 +54,11 @@ class ApiClient {
 
       if(response.statusCode == 200) {
         final session = response.data['session'];
-        if (session != null && session['access_token'] != null) {
-          await _strage.write(key: 'jwt_token', value: session['access_token']);
+        if (session != null && 
+            session['access_token'] != null &&
+            session['refresh_token'] != null) {
+          await _strage.write(key: 'access_token', value: session['access_token']);
+          await _strage.write(key: 'refresh_token', value: session['refresh_token']);
         }
       } else {
         throw Exception('Failed to sign in');

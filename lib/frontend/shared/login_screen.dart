@@ -18,7 +18,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Future<void> _handleLogin() async {
     setState(() => _isLoading = true);
     try {
-      await _apiClient.signIn(_emailController.text, _passwordController.text);
+      await _apiClient.login(_emailController.text, _passwordController.text);
 
       if (mounted) {
         Navigator.of(context).pushReplacement(
