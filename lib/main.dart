@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:yomiru/frontend/homePage.dart';
 import 'package:yomiru/services/hive_service.dart';
 import 'package:yomiru/services/config_service.dart';
+import 'package:yomiru/frontend/shared/auth_check_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,6 +31,6 @@ void main() async {
       ),
     ),
     themeMode: ThemeMode.system, // システムの設定に従う
-    home: HomePage(),
+    home: AuthCheckScreen(),
   ));
 }

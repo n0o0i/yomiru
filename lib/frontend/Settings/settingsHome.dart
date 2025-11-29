@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:yomiru/frontend/shared/strings.dart';
 import 'package:yomiru/frontend/Settings/accoutSettings.dart';
+import 'package:yomiru/services/api_client.dart';
+import '../shared/login_screen.dart';
 
 class SettingsHome extends StatefulWidget {
   const SettingsHome({super.key});
@@ -14,6 +16,8 @@ class _SettingsHomeState extends State<SettingsHome> {
   int _selectedIndex = 0;
   bool _isThemeLight = true;
   bool _notificationEnable = true;
+  bool _isLoading = false;
+  final ApiClient _apiClient = ApiClient();
 
   void _switchBosy() {
     setState(() {
@@ -31,6 +35,26 @@ class _SettingsHomeState extends State<SettingsHome> {
     setState(() {
       _notificationEnable = !_notificationEnable;
     });
+  }
+
+  Future<void> _handleLogout() async {
+    setState(() => _isLoading = true);
+    try {
+      await _apiClient.logout();
+      if (mounted) {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => const LoginScreen())
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('ログアウト失敗：${e.toString()}'))
+        );
+      }
+    } finally {
+      setState(() => _isLoading = false);
+    }
   }
 
   @override
@@ -120,7 +144,7 @@ class _SettingsHomeState extends State<SettingsHome> {
                   ),                
                 ),
                 onPressed: (){
-                  print('pressed');
+                  _handleLogout();
                 },
                 child: Text(
                   AppStrings.SettingsLogout,

@@ -18,13 +18,14 @@ router.post('/signup', async (req, res) => {
     }
 
     return res.status(200).json({ 
-        message: 'Sign up successfull. Confirmation emain sent.',
+        message: 'Sign up successfull. Confirmation email sent.',
         session: data.session
     });
 });
 
 // POST /api/v1/auth/login
 router.post('/login', async (req, res) => {
+    console.log('--- DEBUG: [AUTH] SIGN_IN ROUTE HIT ---');
     const { email, password } = req.body;
 
     const { data, error } = await supabase.auth.signInWithPassword({
