@@ -19,22 +19,22 @@ export const protect = async (req: Request, res: Response, next: NextFunction) =
     }
 
     if (!token) {
-        return res.status(401).json({ message: 'Not authorized, no token' });
+        return res.status(401).json({success: false, message: 'Not authorized, no token' });
     }
 
     try {
         // Supabaseのauth APIを使用してトークンを検証
-        const { data, error } = await supabase.auth.getUser(token);
+        const { data: {user}, error } = await supabase.auth.getUser(token);
 
-        if (error || !data.user) {
+        if (error || !user) {
             return res.status(401).json({ message: 'Not authorized, token invalid or expired.' });
         }
 
         // ユーザーデータをリクエストオブジェクトに添付
-        req.user = data.user;
+        (req as any).user = user;
         return next();
     } catch (error) {
         console.error('Token validation server error: ', error);
-        return res.status(500).json({ message: 'Server error during token validation' });
+        return res.status(401).json({ success: false, message: 'Server error during token validation' });
     }
 };

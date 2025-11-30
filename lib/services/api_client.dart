@@ -19,12 +19,9 @@ class ApiClient {
     }
 
   String finalUrl = base.endsWith('/v1') ? base : '$base/v1';
-  print('DEBUG: ApiClient Base URL is: $finalUrl'); // ★ これを追記
   return finalUrl;
-    // return base.endsWith('/v1') ? base : '$base/v1';
   }
 
-  // static const String _baseUrl = 'http://10.0.2.2:3000/api/v1';// ★ エミュレータからPCのローカルホストにアクセスするためのIP
   // final Dio _dio = Dio(BaseOptions(baseUrl: _baseUrl));
   final _strage = const FlutterSecureStorage();
 
@@ -34,15 +31,49 @@ class ApiClient {
       connectTimeout: const Duration(seconds: 30), // タイムアウトを長めに設定
       receiveTimeout: const Duration(seconds: 30),
     ));
+
     _dio.interceptors.add(InterceptorsWrapper(
       onRequest: (options, handler) async {
-        final token = await _strage.read(key: 'jwt_token');
+        final token = await _strage.read(key: 'access_token');
 
         if (token != null) {
           options.headers['Authorization'] = 'Bearer $token';
         }
         return handler.next(options);
       },
+
+      onError: (DioException error, handler) async {
+        if (error.response?.statusCode == 401 && error.requestOptions.path != '/auth/token/refresh') {
+          final refreshToken = await _strage.read(key: 'refresh_Token');
+
+          if (refreshToken == null) {
+            await logout();
+            return handler.reject(error);
+          }
+
+          try {
+            final refreshResponse = await _dio.post(
+              '/auth/token/refresh',
+              data: {'refresh_token': refreshToken},
+            );
+
+            final newAccessToken = refreshResponse.data['access_token'];
+            final newRefreshToken = refreshResponse.data['refresh_token'];
+
+            await _strage.write(key: 'access_token', value: newAccessToken);
+            await _strage.write(key: 'refresh_token', value: newRefreshToken);
+
+            final RequestOptions requestOptions = error.requestOptions;
+            requestOptions.headers['Authentication'] = 'Bearer $newAccessToken';
+
+            return handler.resolve(await _dio.fetch(requestOptions));
+          } catch (e) {
+            await logout();
+            return handler.reject(error);
+          }
+        }
+        return handler.next(error);
+      }
     ));
   }
 
@@ -66,7 +97,10 @@ class ApiClient {
   }
 
   Future<void> logout() async {
-    await _strage.delete(key: 'jwt_token');
+    // FIXME!!!! add backend for logout
+
+    await _strage.delete(key: 'access_token');
+    await _strage.delete(key: 'refresh_token');
   }
 
   Future<List<BookRelation>> fetchMyBooks() async {
@@ -87,7 +121,7 @@ class ApiClient {
   }
 
   Future<bool> isAuthenticated() async {
-    final token = await _strage.read(key: 'jwt_token');
+    final token = await _strage.read(key: 'refresh_token');
 
     return token != null;
   }
