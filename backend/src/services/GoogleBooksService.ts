@@ -1,5 +1,8 @@
 import axios from 'axios';
 import { GoogleBooksResponse, GoogleBooksSearchParams, GoogleBooksVolume } from '../types/GoogleBooks';
+import * as dotenv from 'dotenv';
+
+dotenv.config();
 
 export class GoogleBooksService {
   private readonly baseUrl = 'https://www.googleapis.com/books/v1/volumes';
@@ -8,7 +11,7 @@ export class GoogleBooksService {
   constructor() {
     this.apiKey = process.env.GOOGLE_BOOKS_API_KEY || '';
   }
-
+  
   // 本を検索
   public async searchBooks(params: GoogleBooksSearchParams): Promise<GoogleBooksResponse> {
     try {
