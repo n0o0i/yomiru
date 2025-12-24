@@ -1,0 +1,6 @@
+name = "yomiru-backend"
+main = "backend/src/index.ts"
+compatibility_date = "2025-12-01"
+
+[vars]
+SUPABASE_URL="https://isefeaiyrismvbrpcybi.supabase.co" 

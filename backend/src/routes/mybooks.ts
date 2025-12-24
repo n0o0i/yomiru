@@ -1,6 +1,6 @@
 import express from 'express';
 import { protect } from '../middleware/auth';
-import { supabase } from '../db/index';
+import { supabase } from '../db/supabase';
 
 const router = express.Router();
 

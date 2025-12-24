@@ -1,57 +1,95 @@
-import express from 'express';
-import cors from 'cors';
-import helmet from 'helmet';
-import morgan from 'morgan';
-import * as dotenv from 'dotenv';
+// import express from 'express';
+// import cors from 'cors';
+// import helmet from 'helmet';
+// import morgan from 'morgan';
+// import * as dotenv from 'dotenv';
+import { Hono } from 'hono';
+import { cors } from 'hono/cors';
+import { logger } from 'hono/logger';
+import { secureHeaders } from 'hono/secure-headers';
+
 import { bookRoutes } from './routes/bookRoutes';
-import { googleBooksRoutes } from './routes/googleBooksRoutes';
 import { errorHandler } from './middleware/errorHandler';
 import authRoutes from './routes/auth';
 import mybooksRoutes from './routes/mybooks';
+import { timeStamp } from 'console';
 
 // 環境変数を読み込み
-dotenv.config();
+// dotenv.config();
 
-const app = express();
-const PORT = process.env.PORT || 3000;
+type Bingings = {
+  SUPABASE_URL : string;
+  SUPABASE_ANON_KEY: string;
+  RAKUTEN_APP_ID: string;
+  RAKUTEN_APP_SECRET: string;
+  RAKUTEN_AFFILIATE_ID: string;
+}
+
+const app = new Hono<{ Bindings: Bingings }>();
+
+// const app = express();
+// const PORT = process.env.PORT || 3000;
 
 // ミドルウェアの設定
-app.use(helmet()); // セキュリティヘッダー
-app.use(cors()); // CORS設定
-app.use(morgan('combined')); // ログ出力
-app.use(express.json()); // JSONパーサー
-app.use(express.urlencoded({ extended: true })); // URLエンコードパーサー
+// app.use(helmet()); // セキュリティヘッダー
+// app.use(cors()); // CORS設定
+// app.use(morgan('combined')); // ログ出力
+// app.use(express.json()); // JSONパーサー
+// app.use(express.urlencoded({ extended: true })); // URLエンコードパーサー
+app.use('*', secureHeaders());
+app.use('*', cors());
+app.use('*', logger());
 
 // ルートの設定
-app.use('/api/v1/auth', authRoutes);
-app.use('/api/books', bookRoutes);
-app.use('/api/google-books', googleBooksRoutes);
-app.use('/api/v1/mybooks', mybooksRoutes);
+// app.use('/api/v1/auth', authRoutes);
+// app.use('/api/books', bookRoutes);
+// app.use('/api/google-books', googleBooksRoutes);
+// app.use('/api/v1/mybooks', mybooksRoutes);
 
 // ヘルスチェックエンドポイント
-app.get('/api/v1/health', (req, res) => {
-  res.status(200).json({
+// app.get('/api/v1/health', (req, res) => {
+//   res.status(200).json({
+//     status: 'OK',
+//     message: 'Yomiru Backend API is running',
+//     timestamp: new Date().toISOString()
+//   });
+// });
+app.get('/api/v1/health', (c) => {
+  return c.json ({
     status: 'OK',
-    message: 'Yomiru Backend API is running',
-    timestamp: new Date().toISOString()
+    message: 'Yomiru Backend API is ruuning in Cloudflare Workers',
+    timeStamp: new Date().toISOString()
   });
 });
 
 // 404ハンドラー
-app.use('*', (req, res) => {
-  res.status(404).json({
+// app.use('*', (req, res) => {
+//   res.status(404).json({
+//     error: 'Not Found',
+//     message: `Route ${req.originalUrl} not found`
+//   });
+// });
+app.notFound((c) => {
+  return c.json({
     error: 'Not Found',
-    message: `Route ${req.originalUrl} not found`
+    message: `Route ${c.req.path} not found`
   });
 });
 
 // エラーハンドラー
-app.use(errorHandler);
+// app.use(errorHandler);
+app.onError((err, c) => {
+  console.error(`${err}`);
+  return c.json({
+    error: 'Internal Server Error',
+    message: err.message
+  }, 500);
+});
 
 // サーバー起動
-app.listen(PORT, () => {
-  console.log(`🚀 Server is running on port ${PORT}`);
-  console.log(`📚 Yomiru Backend API is ready!`);
-});
+// app.listen(PORT, () => {
+//   console.log(`🚀 Server is running on port ${PORT}`);
+//   console.log(`📚 Yomiru Backend API is ready!`);
+// });
 
 export default app;

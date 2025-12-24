@@ -1,4 +1,4 @@
-import { supabase  } from "../db/index";
+import { supabase  } from "../db/supabase";
 import { AuthSession } from '@supabase/supabase-js'
 
 export class AuthService {

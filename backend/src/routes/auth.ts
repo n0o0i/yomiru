@@ -1,5 +1,5 @@
 import Express from "express";
-import { supabase } from '../db/index';
+import { supabase } from '../db/supabase';
 import {AuthService} from '../services/auth.service';
 import { protect } from '../middleware/auth'
 import { rootCertificates } from "tls";
