@@ -7,17 +7,21 @@ import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import { logger } from 'hono/logger';
 import { secureHeaders } from 'hono/secure-headers';
+import { v1 } from './routes/v1';
+import { User } from '@supabase/supabase-js';
 
 import { bookRoutes } from './routes/bookRoutes';
 import { errorHandler } from './middleware/errorHandler';
-import authRoutes from './routes/auth';
 import mybooksRoutes from './routes/mybooks';
 import { timeStamp } from 'console';
 
 // 環境変数を読み込み
 // dotenv.config();
+export type Variables = {
+  user: User;
+}
 
-type Bingings = {
+export type Bindings = {
   SUPABASE_URL : string;
   SUPABASE_ANON_KEY: string;
   RAKUTEN_APP_ID: string;
@@ -25,7 +29,7 @@ type Bingings = {
   RAKUTEN_AFFILIATE_ID: string;
 }
 
-const app = new Hono<{ Bindings: Bingings }>();
+const app = new Hono<{ Bindings: Bindings, Variables: Variables}>();
 
 // const app = express();
 // const PORT = process.env.PORT || 3000;
@@ -54,13 +58,7 @@ app.use('*', logger());
 //     timestamp: new Date().toISOString()
 //   });
 // });
-app.get('/api/v1/health', (c) => {
-  return c.json ({
-    status: 'OK',
-    message: 'Yomiru Backend API is ruuning in Cloudflare Workers',
-    timeStamp: new Date().toISOString()
-  });
-});
+app.route('/api/v1', v1);
 
 // 404ハンドラー
 // app.use('*', (req, res) => {

@@ -10,6 +10,9 @@ export const getSupabase = (env: { SUPABASE_URL: string; SUPABASE_ANON_KEY: stri
     const supabaseUrl = env.SUPABASE_URL;
     const supabaseAnonKey = env.SUPABASE_ANON_KEY;
 
+    console.log('url;', env.SUPABASE_URL);
+
+
     if (!supabaseUrl || !supabaseAnonKey){
         throw new Error('SUPABASE_URL and SUPABASE_ANON_KEY must be defined in wrangler.toml or .dev.vars');
     }

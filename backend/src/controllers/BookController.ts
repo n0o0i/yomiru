@@ -1,6 +1,5 @@
 // import { Request, Response } from 'express';
 import { Context } from 'hono';
-import { v4 as uuidv4 } from 'uuid';
 import { Book, CreateBookRequest, UpdateBookRequest, BookQueryParams } from '../types/Book';
 import { BookService } from '../services/BookService';
 
@@ -21,7 +20,7 @@ export class BookController {
         limit: c.req.query('limit') ? parseInt(c.req.query('limit') as string) : 10
       };
 
-      const books = await this.bookService.getBooks(c, queryParams);
+      const books = await this.bookService.getBooks(c.env, queryParams);
       
       return c.json({
         success: true,
@@ -72,7 +71,7 @@ export class BookController {
   public createBook = async (c: Context)=> {
     try {
       const bookData: CreateBookRequest = await c.req.json();
-      const book = await this.bookService.createBook(c, bookData);
+      const book = await this.bookService.createBook(c.env, bookData);
 
       return c.json({
         success: true,

@@ -1,40 +1,40 @@
-import { Request, Response, NextFunction } from "express";
-import { supabase } from '../db/supabase';
+import { createMiddleware } from 'hono/factory';
+import { getSupabase } from '../db/supabase';
+import { Bindings, Variables} from '../index';
 
-declare global {
-    namespace Express {
-        interface Request {
-            user?: any; // ユーザーデータを格納するためのプロパティ
-        }
-    }
-}
+// declare global {
+//     namespace Express {
+//         interface Request {
+//             user?: any; // ユーザーデータを格納するためのプロパティ
+//         }
+//     }
+// }
 
-export const protect = async (req: Request, res: Response, next: NextFunction) => {
-    let token;
+export const protect = createMiddleware<{ Bindings: Bindings, Variables: Variables}>(async (c, next)=> {
+    let token: string | undefined;
 
-    // Authorizationヘッダーからトークンを取得
-    // token = 'Bearer eyJhbGciOiJIUzI1NiI..'
-    if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
-        token = req.headers.authorization.split(' ')[1];
+    const authHeader = c.req.header('Authorization');
+    if (authHeader && authHeader.startsWith('Bearer')) {
+        token = authHeader.split(' ')[1];
     }
 
     if (!token) {
-        return res.status(401).json({success: false, message: 'Not authorized, no token' });
+        return c.json({success: false, message: 'Not authorized, no token.'}, 401);
     }
 
     try {
-        // Supabaseのauth APIを使用してトークンを検証
-        const { data: {user}, error } = await supabase.auth.getUser(token);
+        const supabase = getSupabase(c.env);
+        const { data: { user }, error} = await supabase.auth.getUser(token);
 
         if (error || !user) {
-            return res.status(401).json({ message: 'Not authorized, token invalid or expired.' });
+            return c.json({success: false, message: 'Not authorized, invalid token.'});
         }
 
-        // ユーザーデータをリクエストオブジェクトに添付
-        (req as any).user = user;
-        return next();
+        c.set('user', user);
+
+        return await next();
     } catch (error) {
-        console.error('Token validation server error: ', error);
-        return res.status(401).json({ success: false, message: 'Server error during token validation' });
+        console.error('Token validation server error:', error);
+        return c.json({success: false, message: 'Server error'}, 401);
     }
-};
+});

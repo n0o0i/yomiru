@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import { Book, CreateBookRequest, UpdateBookRequest, BookQueryParams } from '../types/Book';
-import { getSupabase } from '@/db/supabase';
+import { getSupabase } from '../db/supabase';
 
 export class BookService {
   // 本の一覧取得
@@ -42,7 +42,7 @@ export class BookService {
       .insert([
         {
           ...bookData,
-          tags: bookData.tags || [],
+          // tags: bookData.tags || [],
         }
       ])
       .select()
