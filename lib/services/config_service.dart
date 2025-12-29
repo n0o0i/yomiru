@@ -9,7 +9,8 @@ class ConfigService {
   }
   
   // API設定
-  static String get apiBaseUrl => _prefs?.getString('api_base_url') ?? 'http://localhost:3000/api';
+  // static String get apiBaseUrl => _prefs?.getString('api_base_url') ?? 'http://localhost:8787';
+  static String get apiBaseUrl => 'http://localhost:8787/api';
   static String get googleBooksApiKey => _prefs?.getString('google_books_api_key') ?? '';
   
   // アプリ設定
@@ -55,7 +56,7 @@ class ConfigService {
   // デフォルト設定の読み込み
   static Future<void> loadDefaultConfig() async {
     if (_prefs?.getString('api_base_url') == null) {
-      await setApiBaseUrl('http://localhost:3000/api');
+      await setApiBaseUrl('http://localhost:8787');
     }
     if (_prefs?.getString('app_name') == null) {
       await _prefs?.setString('app_name', 'Yomiru');

@@ -1,36 +1,23 @@
 // import Express from "express";
 import { Hono } from 'hono';
 import { getSupabase } from '../db/supabase';
-import { AuthService } from '../services/auth.service';
+import { AuthController } from '../controllers/AuthContoller';
 import { protect } from '../middleware/auth'
 import { Bindings, Variables } from '../index';
 import { rootCertificates } from "tls";
 
+import { AuthService } from '../services/auth.service';
+const authService = new AuthService();
+// DELETE ME!!!!!!!!!!!!
+
 // const router = Express.Router();
 const router = new Hono<{Bindings: Bindings, Variables: Variables}>();
-const authService = new AuthService;
+const authController = new AuthController;
 
 // POST /api/v1/auth/signup
-router.post('/signup', async (c) => {
-    const { email, password } = await c.req.json();
-    const supabase = getSupabase(c.env);
+router.post('/signup', authController.signUp);
 
-    const { data, error } = await supabase.auth.signUp({
-        email,
-        password,
-        options : {emailRedirectTo: 'http://localhost:8787/api/v1/auth/callback'}
-    });
-
-    if (error) {
-        return c.json({success: false, message: error.message}, 400);
-    }
-
-    return c.json({ 
-        success: true,
-        message: 'Sign up successfull. Confirmation email sent.',
-        session: data.session
-    }, 200);
-});
+router.get('/callback', authController.signUpCallback);
 
 // POST /api/v1/auth/login
 router.post('/login', async (c) => {
@@ -77,8 +64,5 @@ router.post('/token/refresh', async (c) => {
 
 
 // GET /api/v1/auth/callback
-router.get('/callback', async (c) => {
-    return c.json({success: true, message: 'Email confirmation successful! You can now close this window and return to the app.'});
-});
 
 export {router as authRoutes};

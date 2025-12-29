@@ -7,8 +7,8 @@ import { BookController } from '../controllers/BookController';
 const router = new Hono();
 const bookController = new BookController();
 
-router.get('/getBooks', (c) => bookController.getBooks(c));
-router.post('/createBook', (c) => bookController.createBook(c));
+router.get('/getBooks', bookController.getBooks);
+router.post('/createBook', bookController.createBook);
 
 // // 本の詳細取得
 // router.get('/:id', (c) => bookController.getBookById(c));
