@@ -13,8 +13,8 @@
 migrate_working_dir/
 
 # Environment variables
-.dev.vars
 .env
+.dev.vars
 
 # IntelliJ related
 *.iml
