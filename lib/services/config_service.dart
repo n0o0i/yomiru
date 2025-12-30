@@ -9,7 +9,7 @@ class ConfigService {
   }
   
   // API設定
-  // static String get apiBaseUrl => _prefs?.getString('api_base_url') ?? 'http://localhost:8787';
+  // static String get apiBaseUrl => _prefs?.getString('api_base_url') ?? 'http://localhost:8787/';
   static String get apiBaseUrl => 'http://localhost:8787/api';
   static String get googleBooksApiKey => _prefs?.getString('google_books_api_key') ?? '';
   

@@ -50,7 +50,7 @@ class _SignUpPageState extends State<SignUpPage> {
     });
 
     try {
-      print('succeded to make an account');
+      await _apiClient.signUp(_emailController.text, _passwordController.text, _userIdController.text);
     } catch (e) {
       setState(() {
         _errorMessage = e.toString();

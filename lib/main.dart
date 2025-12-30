@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:yomiru/frontend/homePage.dart';
-import 'package:yomiru/services/hive_service.dart';
 import 'package:yomiru/services/config_service.dart';
 import 'package:yomiru/frontend/shared/auth_check_screen.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -11,8 +11,15 @@ void main() async {
   await ConfigService.init();
   await ConfigService.loadDefaultConfig();
   
-  // Hiveの初期化
-  await HiveService.init();
+  await dotenv.load(fileName: '.env');
+
+  await Supabase.initialize(
+    url: dotenv.get('SUPABASE_URL'),
+    anonKey: dotenv.get('SUPABASE_ANON_KEY'),
+    authOptions: const FlutterAuthClientOptions(
+      authFlowType: AuthFlowType.pkce,
+    ),
+  );
   
   runApp(MaterialApp(
     theme: ThemeData(
@@ -32,5 +39,10 @@ void main() async {
     ),
     themeMode: ThemeMode.system, // システムの設定に従う
     home: AuthCheckScreen(),
+    onGenerateRoute: (settings){
+      return MaterialPageRoute(
+        builder: (settings) => const AuthCheckScreen()
+      );
+    },
   ));
 }

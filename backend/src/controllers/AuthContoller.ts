@@ -11,7 +11,7 @@ export class AuthController {
     public signUp = async (c: AppContext) => {
         try {
             const { email, password, userId } = await c.req.json();
-            
+            console.log('calling service.signUp');
             const result = await this.authService.signUp(c.env, email, password, userId);
             return c.json({
                 success: true,
@@ -28,9 +28,32 @@ export class AuthController {
     }
 
     public signUpCallback = async (c: Context) => {
-        const queries = c.req.queries();
+        // console.log('🔥🔥 Honoのコールバックが呼ばれました！');
+        // const code = c.req.query('code');
+        // console.log('🔥🔥 code！', code);
+            const allQueries = c.req.query(); // すべてのクエリを取得
+            console.log('届いたクエリ一覧:', allQueries);
 
-        const appUrl = `yomiru://login-callback?access_token=${queries.access_token}`;
+            const code = c.req.query('code');
+            const tokenHash = c.req.query('token_hash'); // PKCEでない場合に届くことがある
+
+            console.log('Code:', code);
+            console.log('Token Hash:', tokenHash);
+        if (!code) {
+            return c.text('無効なリクエストです（コードが見つかりません）', 400);
+        }
+
+        // const { data, error} = await this.authService.exchangeCodeForSession(c.env, code);
+
+        // if (error || !data.session) {
+        //     return c.text('認証に失敗しました', 401);
+        // }
+
+        // const accessToken = data.session.access_token;
+        // const refreshToken = data.session.refresh_token;
+
+        // const appUrl = `yomiru://login-callback?access_token=${accessToken}&refresh_token=${refreshToken}`;
+        const appUrl = `yomiru://login-callback?code=${code}`;
 
         return c.html(`
             <html>

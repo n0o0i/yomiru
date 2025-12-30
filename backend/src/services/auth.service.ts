@@ -13,20 +13,22 @@ export class AuthService {
 
         const isExisting = async(column: string, value: string): Promise<Boolean> => {
             const {data: existing} = await supabase
-                .from('profiles')
-                .select(column)
-                .eq(column, value)
-                .maybeSingle();
-
+            .from('profiles')
+            .select(column)
+            .eq(column, value)
+            .maybeSingle();
+            
             return existing? true: false;
         }         
-
+        
         const existingEmail = await isExisting('email', email);        
         if (existingEmail) throw new Error ('CONFLICT_EMAIL');
         
         const existingUserId = await isExisting('user_id', userId);
         if (existingUserId) throw new Error ('CONFLICT_USER_ID');
-
+        
+        console.log('calling supabase signup');
+        console.log(`${env.API_URL}/api/v1/auth/callback`);
         const { data, error } = await supabase.auth.signUp({
             email,
             password,
@@ -44,6 +46,11 @@ export class AuthService {
             userId: userId,
             isConfirmed: false
         }
+    }
+
+    async exchangeCodeForSession(env: any, code: any) {
+        const supabase = getSupabase(env);
+        return await supabase.auth.exchangeCodeForSession(code);
     }
     
     async login (env: any, email: string, password: string): Promise<{session: AuthSession | null, user: any | null}> {

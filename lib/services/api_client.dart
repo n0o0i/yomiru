@@ -4,8 +4,12 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../models/book_relation.dart';
 import 'config_service.dart';
 import 'dart:io' show Platform;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ApiClient {
+  SupabaseClient get _supabase => Supabase.instance.client;
+
   late Dio _dio;
   static String get _baseUrl {
     String base = ConfigService.apiBaseUrl;
@@ -18,9 +22,9 @@ class ApiClient {
         // iOSの場合、localhostのまま (置換しない)
       }
     }
-
-  String finalUrl = base.endsWith('/v1') ? base : '$base/v1';
-  return finalUrl;
+      
+    String finalUrl = base.endsWith('/v1') ? base : '$base/v1';
+    return finalUrl;
   }
 
   // final Dio _dio = Dio(BaseOptions(baseUrl: _baseUrl));
@@ -33,8 +37,15 @@ class ApiClient {
       receiveTimeout: const Duration(seconds: 30),
     ));
 
-  //   _dio.interceptors.add(InterceptorsWrapper(
-  //     onRequest: (options, handler) async {
+    _dio.interceptors.add(InterceptorsWrapper(
+      onRequest: (options, handler) async {
+        final session = _supabase.auth.currentSession;
+        final token = session?.accessToken;
+
+        if(token != null) {
+          options.headers['Authorization'] = 'Bearer $token';
+        } 
+        return handler.next(options);
   //       final token = await _strage.read(key: 'access_token');
 
   //       if (token != null) {
@@ -74,8 +85,20 @@ class ApiClient {
   //         }
   //       }
   //       return handler.next(error);
-  //     }
-  //   ));
+      }
+    ));
+  }
+
+  Future<void> signUp(String email, String password, String userId) async {
+    try {
+      final response = await _dio.post('/auth/signup', data: {
+        'email': email,
+        'password': password,
+        'userId': userId
+      });
+    } on DioException catch (e) {
+      throw e.response?.data['message'] ?? 'サインアップに失敗しました';
+    }
   }
 
   Future<void> login(String email, String password) async {
@@ -133,10 +156,8 @@ class ApiClient {
   }
 
   Future<bool> isAuthenticated() async {
-    final session = s
+    final session = _supabase.auth.currentSession;
 
-    final token = await _strage.read(key: 'refresh_token');
-
-    return token != null;
+    return session != null && !session.isExpired;
   }
 }
