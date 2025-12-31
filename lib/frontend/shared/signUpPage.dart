@@ -54,6 +54,7 @@ class _SignUpPageState extends State<SignUpPage> {
     } catch (e) {
       setState(() {
         _errorMessage = e.toString();
+        _isError = true;
       });
     } finally {
       setState(() {

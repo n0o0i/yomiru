@@ -91,11 +91,16 @@ class ApiClient {
 
   Future<void> signUp(String email, String password, String userId) async {
     try {
-      final response = await _dio.post('/auth/signup', data: {
+      final response = await _dio.post('/auth/isEmailAndIdAvailable', data: {
         'email': email,
-        'password': password,
         'userId': userId
       });
+
+      await _supabase.auth.signUp(
+        email: email,
+        password: password,
+        emailRedirectTo: 'http://localhost:8787/api/v1/auth/callback'
+      );
     } on DioException catch (e) {
       throw e.response?.data['message'] ?? 'サインアップに失敗しました';
     }

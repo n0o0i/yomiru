@@ -1918,10 +1918,10 @@ var require_cjs = __commonJS({
   }
 });
 
-// .wrangler/tmp/bundle-KCn1MT/middleware-loader.entry.ts
+// .wrangler/tmp/bundle-fY5hgC/middleware-loader.entry.ts
 init_modules_watch_stub();
 
-// .wrangler/tmp/bundle-KCn1MT/middleware-insertion-facade.js
+// .wrangler/tmp/bundle-fY5hgC/middleware-insertion-facade.js
 init_modules_watch_stub();
 
 // backend/src/index.ts
@@ -15307,32 +15307,10 @@ var AuthService = class {
   static {
     __name(this, "AuthService");
   }
-  async signUp(env, email, password, userId) {
+  async isAvailable(env, column, value) {
     const supabase = getSupabase(env);
-    const isExisting = /* @__PURE__ */ __name(async (column, value) => {
-      const { data: existing } = await supabase.from("profiles").select(column).eq(column, value).maybeSingle();
-      return existing ? true : false;
-    }, "isExisting");
-    const existingEmail = await isExisting("email", email);
-    if (existingEmail) throw new Error("CONFLICT_EMAIL");
-    const existingUserId = await isExisting("user_id", userId);
-    if (existingUserId) throw new Error("CONFLICT_USER_ID");
-    console.log("calling supabase signup");
-    console.log(`${env.API_URL}/api/v1/auth/callback`);
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: { emailRedirectTo: `${env.API_URL}/api/v1/auth/callback` }
-    });
-    if (error) throw error;
-    if (data.user) {
-      await supabase.from("profiles").insert({ id: data.user.id, user_id: userId, email });
-    }
-    return {
-      email,
-      userId,
-      isConfirmed: false
-    };
+    const existing = await supabase.from("profiles").select(column).eq(column, value).maybeSingle();
+    return existing.data == null ? true : false;
   }
   async exchangeCodeForSession(env, code) {
     const supabase = getSupabase(env);
@@ -15365,16 +15343,27 @@ var AuthService = class {
 var AuthController = class {
   constructor() {
     this.authService = new AuthService();
-    this.signUp = /* @__PURE__ */ __name(async (c) => {
+    this.isEmailAndIdAvailable = /* @__PURE__ */ __name(async (c) => {
       try {
-        const { email, password, userId } = await c.req.json();
-        console.log("calling service.signUp");
-        const result = await this.authService.signUp(c.env, email, password, userId);
-        return c.json({
-          success: true,
-          message: "Confirmation email sent.",
-          data: result
-        }, 201);
+        const { email, userId } = await c.req.json();
+        const isEmailAvailable = await this.authService.isAvailable(c.env, "email", email);
+        const isIdAvailable = await this.authService.isAvailable(c.env, "user_id", userId);
+        if (!isEmailAvailable) {
+          return c.json({
+            success: false,
+            message: "CONFLICT_EMAIL"
+          }, 409);
+        } else if (!isIdAvailable) {
+          return c.json({
+            success: false,
+            message: "CONFLICT_USER_ID"
+          }, 409);
+        } else {
+          return c.json({
+            success: true,
+            message: "The email and ID are available."
+          }, 200);
+        }
       } catch (e) {
         const status = e.message === "CONFLICT_USER_ID" || "CONFLICT_EMAIL" ? 409 : 400;
         return c.json({
@@ -15382,14 +15371,9 @@ var AuthController = class {
           message: e.message
         }, status);
       }
-    }, "signUp");
+    }, "isEmailAndIdAvailable");
     this.signUpCallback = /* @__PURE__ */ __name(async (c) => {
-      const allQueries = c.req.query();
-      console.log("\u5C4A\u3044\u305F\u30AF\u30A8\u30EA\u4E00\u89A7:", allQueries);
       const code = c.req.query("code");
-      const tokenHash = c.req.query("token_hash");
-      console.log("Code:", code);
-      console.log("Token Hash:", tokenHash);
       if (!code) {
         return c.text("\u7121\u52B9\u306A\u30EA\u30AF\u30A8\u30B9\u30C8\u3067\u3059\uFF08\u30B3\u30FC\u30C9\u304C\u898B\u3064\u304B\u308A\u307E\u305B\u3093\uFF09", 400);
       }
@@ -15445,7 +15429,7 @@ var protect = createMiddleware(async (c, next) => {
 var authService = new AuthService();
 var router2 = new Hono2();
 var authController = new AuthController();
-router2.post("/signup", authController.signUp);
+router2.post("/isEmailAndIdAvailable", authController.isEmailAndIdAvailable);
 router2.get("/callback", authController.signUpCallback);
 router2.post("/login", async (c) => {
   try {
@@ -15558,7 +15542,7 @@ var jsonError = /* @__PURE__ */ __name(async (request, env, _ctx, middlewareCtx)
 }, "jsonError");
 var middleware_miniflare3_json_error_default = jsonError;
 
-// .wrangler/tmp/bundle-KCn1MT/middleware-insertion-facade.js
+// .wrangler/tmp/bundle-fY5hgC/middleware-insertion-facade.js
 var __INTERNAL_WRANGLER_MIDDLEWARE__ = [
   middleware_ensure_req_body_drained_default,
   middleware_miniflare3_json_error_default
@@ -15591,7 +15575,7 @@ function __facade_invoke__(request, env, ctx, dispatch, finalMiddleware) {
 }
 __name(__facade_invoke__, "__facade_invoke__");
 
-// .wrangler/tmp/bundle-KCn1MT/middleware-loader.entry.ts
+// .wrangler/tmp/bundle-fY5hgC/middleware-loader.entry.ts
 var __Facade_ScheduledController__ = class ___Facade_ScheduledController__ {
   constructor(scheduledTime, cron, noRetry) {
     this.scheduledTime = scheduledTime;

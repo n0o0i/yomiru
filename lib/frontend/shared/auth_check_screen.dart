@@ -19,15 +19,22 @@ class _AuthCheckScreenState extends State<AuthCheckScreen> {
     super.initState();
 
     _authSubScription = Supabase.instance.client.auth.onAuthStateChange.listen((data) {
-      print("Auth Event: ${data.event}");
+      if(!mounted) return;
+
       final session = data.session;
       final event = data.event;
 
-      if((event == AuthChangeEvent.signedIn || session != null) && session != null) {
+      if(session != null){
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => const HomePage()), 
+          (route) => false
+        );
+      }
+      else if(event == AuthChangeEvent.initialSession || event == AuthChangeEvent.signedOut) {
         if(mounted) {
           Navigator.pushAndRemoveUntil(
             context,
-            MaterialPageRoute(builder: (context) => const HomePage()),
+            MaterialPageRoute(builder: (context) => const LoginScreen()),
             (route) => false,
           );
         }
@@ -43,13 +50,10 @@ class _AuthCheckScreenState extends State<AuthCheckScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final session = Supabase.instance.client.auth.currentSession;
-
-    if (session != null){
-      return const HomePage();
-    } else {
-      return const LoginScreen();
-    }
+    return const Scaffold(
+      body: Center(
+        child: CircularProgressIndicator(),
+      ),
+    );
   }
-
 }
