@@ -13,7 +13,6 @@ class SignUpPage extends StatefulWidget {
 class _SignUpPageState extends State<SignUpPage> {
   final _formKey = GlobalKey<FormState>();
 
-  final _userIdController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _passwordConfirmController = TextEditingController();
@@ -51,7 +50,7 @@ class _SignUpPageState extends State<SignUpPage> {
     });
 
     try {
-      // await _apiClient.signUp(_emailController.text, _passwordController.text, _userIdController.text);
+      // await _apiClient.signUp(_emailController.text, _passwordController.text);
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(builder: (context) => ProfileSetupPage()),
@@ -96,17 +95,6 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                 ),
                 // Spacer(),
-                const SizedBox(height: 16),
-                TextFormField(
-                  controller: _userIdController,
-                  decoration: _buildInputDecotarion('ユーザID', Icons.person),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'ユーザIDを入力してください';
-                    }
-                    return null;
-                  },
-                ),
                 const SizedBox(height: 16),
                 TextFormField(
                   controller: _emailController,

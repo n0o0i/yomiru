@@ -14,8 +14,8 @@ const authService = new AuthService();
 const router = new Hono<{Bindings: Bindings, Variables: Variables}>();
 const authController = new AuthController;
 
-// POST /api/v1/auth/isEmailAndIdAvailable
-router.post('/isEmailAndIdAvailable', authController.isEmailAndIdAvailable);
+// POST /api/v1/auth/isAvailable
+router.post('/isAvailable', authController.isAvailable);
 router.post('/createProfile', authController.createProfile);
 
 router.get('/callback', authController.signUpCallback);

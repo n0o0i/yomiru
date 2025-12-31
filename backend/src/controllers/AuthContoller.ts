@@ -8,78 +8,62 @@ type AppContext = Context<{ Bindings: Bindings, Variables: Variables}>;
 export class AuthController {
     private authService = new AuthService();
 
-    public isEmailAndIdAvailable = async (c: AppContext) => {
+    public isAvailable = async (c: AppContext) => {
+        console.log('--- Auth isAvailable Started ---');
         try {
-            const { email, userId } = await c.req.json();
-            const isEmailAvailable = await this.authService.isAvailable(c.env, 'email', email);
-            const isIdAvailable = await this.authService.isAvailable(c.env, 'user_id', userId);
-
+            const { column, value } = await c.req.json();
+            console.log(`Checking ${value} is available.`);
+            const isEmailAvailable = await this.authService.isAvailable(c.env, 'email', value);
+            
             if(!isEmailAvailable){
+                console.log(`[Error] ${value} already exists`);
                 return c.json({
                     success: false,
-                    message: 'CONFLICT_EMAIL'
-                }, 409);
-            } else if (!isIdAvailable){
-                return c.json({
-                    success: false,
-                    message: 'CONFLICT_USER_ID'
+                    message: 'CONFLICT_VALUE'
                 }, 409);
             } else {   
+                console.log(`[Success] ${value} is available`);
                 return c.json({
                     success: true,
-                    message: 'The email and ID are available.',
+                    message: `${value} is available.`,
                 }, 200);
             }
         } catch (e: any) {
-            const status = e.message === 'CONFLICT_USER_ID' || 'CONFLICT_EMAIL' ? 409: 400;
+            console.log(`[Error] This value already exists`);
+            const status = e.message === 'CONFLICT_VALUE' ? 409: 400;
             return c.json({
                 success: false,
                 message: e.message
             }, status);
         }
     }
-
+    
     public createProfile = async (c: Context) => {
+        console.log('--- Auth createProfile Started ---');
         try {
             const {id, userId, displayName, email} = await c.req.json();
-            const result = await this.authService.createProfile(c.env, id, userId,displayName, email);
-            console.log(result);
-            if(result.status == 201) {
-                return c.json({
-                    success: true,
-                    message: result.statusText
-                }, 201)
-            } else {
-                return c.json({
-                    success: false,
-                    message: 'Failed to create user profile'
-                }, 400)
-            }
+            console.log(`Creating a user profile. User ID: ${id}`);
+            await this.authService.createProfile(c.env, id, userId,displayName, email);
+            console.log(`[Success] User profile created for ${id}`);
+            return c.json({
+                success: true,
+                message: 'Success to create a user profile'
+            }, 201)
         } catch (e: any) {
-            console.log(e);
+            console.log(`[Error] Failed to created a user profile. Error message: ${e.message}`);
             return c.json({
                 success: false,
                 message: e.message
             }, 400);
         }
     }
-
+    
     public signUpCallback = async (c: Context) => {
+        console.log('--- Auth Callback Started ---');
         const code = c.req.query('code');
         if (!code) {
             return c.text('無効なリクエストです（コードが見つかりません）', 400);
         }
-
-        // const { data, error} = await this.authService.exchangeCodeForSession(c.env, code);
-
-        // if (error || !data.session) {
-        //     return c.text('認証に失敗しました', 401);
-        // }
-
-        // const accessToken = data.session.access_token;
-        // const refreshToken = data.session.refresh_token;
-
-        // const appUrl = `yomiru://login-callback?access_token=${accessToken}&refresh_token=${refreshToken}`;
         const appUrl = `yomiru://login-callback?code=${code}`;
 
         return c.html(`

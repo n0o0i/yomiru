@@ -15308,23 +15308,38 @@ var AuthService = class {
     __name(this, "AuthService");
   }
   async isAvailable(env, column, value) {
-    const supabase = getSupabase(env);
-    const existing = await supabase.from("profiles").select(column).eq(column, value).maybeSingle();
-    return existing.data == null ? true : false;
+    try {
+      console.log(`Checking ${value} is available`);
+      console.log(`colum: ${column}`);
+      console.log(`value: ${value}`);
+      const supabase = getSupabase(env);
+      const { data, error } = await supabase.from("profiles").select(column).eq(column, value).maybeSingle();
+      if (error) throw new Error(error.message);
+      return true;
+    } catch (e) {
+      console.log(`[Error] ${e}`);
+      throw new Error(e);
+    }
   }
-  async createProfile(env, Id, userId, displayName, email) {
+  async createProfile(env, id, userId, displayName, email) {
+    console.log(`Creating a user profile for ${id}`);
     const supabase = getSupabase(env);
     try {
-      const result = await supabase.from("profile").insert({
-        id: Id,
+      console.log(`id: ${id}`);
+      console.log(`userId: ${userId}`);
+      console.log(`displayName: ${displayName}`);
+      console.log(`email: ${email}`);
+      const { data, error } = await supabase.from("profiles").insert({
+        id,
         user_id: userId,
         display_name: displayName,
         email
       });
-      return result;
+      if (error) throw error.message;
     } catch (error) {
-      console.log(error);
-      throw new Error("Failed to create user profile");
+      console.log(`[Error] Creating a user profile for ${id}.`);
+      console.log(`[Error] ${error}.`);
+      throw new Error(error);
     }
   }
   async exchangeCodeForSession(env, code) {
@@ -15358,53 +15373,47 @@ var AuthService = class {
 var AuthController = class {
   constructor() {
     this.authService = new AuthService();
-    this.isEmailAndIdAvailable = /* @__PURE__ */ __name(async (c) => {
+    this.isAvailable = /* @__PURE__ */ __name(async (c) => {
+      console.log("--- Auth isAvailable Started ---");
       try {
-        const { email, userId } = await c.req.json();
-        const isEmailAvailable = await this.authService.isAvailable(c.env, "email", email);
-        const isIdAvailable = await this.authService.isAvailable(c.env, "user_id", userId);
+        const { column, value } = await c.req.json();
+        console.log(`Checking ${value} is available.`);
+        const isEmailAvailable = await this.authService.isAvailable(c.env, "email", value);
         if (!isEmailAvailable) {
+          console.log(`[Error] ${value} already exists`);
           return c.json({
             success: false,
-            message: "CONFLICT_EMAIL"
-          }, 409);
-        } else if (!isIdAvailable) {
-          return c.json({
-            success: false,
-            message: "CONFLICT_USER_ID"
+            message: "CONFLICT_VALUE"
           }, 409);
         } else {
+          console.log(`[Success] ${value} is available`);
           return c.json({
             success: true,
-            message: "The email and ID are available."
+            message: `${value} is available.`
           }, 200);
         }
       } catch (e) {
-        const status = e.message === "CONFLICT_USER_ID" || "CONFLICT_EMAIL" ? 409 : 400;
+        console.log(`[Error] This value already exists`);
+        const status = e.message === "CONFLICT_VALUE" ? 409 : 400;
         return c.json({
           success: false,
           message: e.message
         }, status);
       }
-    }, "isEmailAndIdAvailable");
+    }, "isAvailable");
     this.createProfile = /* @__PURE__ */ __name(async (c) => {
+      console.log("--- Auth createProfile Started ---");
       try {
         const { id, userId, displayName, email } = await c.req.json();
-        const result = await this.authService.createProfile(c.env, id, userId, displayName, email);
-        console.log(result);
-        if (result.status == 201) {
-          return c.json({
-            success: true,
-            message: result.statusText
-          }, 201);
-        } else {
-          return c.json({
-            success: false,
-            message: "Failed to create user profile"
-          }, 400);
-        }
+        console.log(`Creating a user profile. User ID: ${id}`);
+        await this.authService.createProfile(c.env, id, userId, displayName, email);
+        console.log(`[Success] User profile created for ${id}`);
+        return c.json({
+          success: true,
+          message: "Success to create a user profile"
+        }, 201);
       } catch (e) {
-        console.log(e);
+        console.log(`[Error] Failed to created a user profile. Error message: ${e.message}`);
         return c.json({
           success: false,
           message: e.message
@@ -15412,6 +15421,7 @@ var AuthController = class {
       }
     }, "createProfile");
     this.signUpCallback = /* @__PURE__ */ __name(async (c) => {
+      console.log("--- Auth Callback Started ---");
       const code = c.req.query("code");
       if (!code) {
         return c.text("\u7121\u52B9\u306A\u30EA\u30AF\u30A8\u30B9\u30C8\u3067\u3059\uFF08\u30B3\u30FC\u30C9\u304C\u898B\u3064\u304B\u308A\u307E\u305B\u3093\uFF09", 400);
@@ -15468,7 +15478,7 @@ var protect = createMiddleware(async (c, next) => {
 var authService = new AuthService();
 var router2 = new Hono2();
 var authController = new AuthController();
-router2.post("/isEmailAndIdAvailable", authController.isEmailAndIdAvailable);
+router2.post("/isAvailable", authController.isAvailable);
 router2.post("/createProfile", authController.createProfile);
 router2.get("/callback", authController.signUpCallback);
 router2.post("/login", async (c) => {

@@ -49,11 +49,11 @@ class ApiClient {
     ));
   }
 
-  Future<void> signUp(String email, String password, String userId) async {
+  Future<void> signUp(String email, String password) async {
     try {
-      final response = await _dio.post('/auth/isEmailAndIdAvailable', data: {
-        'email': email,
-        'userId': userId
+      final response = await _dio.post('/auth/isAvailable', data: {
+        'column': 'email',
+        'value': email,
       });
 
       await _supabase.auth.signUp(
@@ -68,6 +68,11 @@ class ApiClient {
 
   Future<void> createProfile (String userId, String displayName) async {
     try {
+      final response = await _dio.post('/auth/isAvailable', data: {
+        'column': 'user_id',
+        'value': userId,
+      });
+      
       final user = _supabase.auth.currentUser;
 
       await _dio.post('/auth/createProfile', data: {

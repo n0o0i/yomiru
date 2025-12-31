@@ -10,54 +10,48 @@ export interface SignUpResponse {
 
 export class AuthService {
     async isAvailable (env: any, column: string, value: string): Promise<Boolean> {
-        const supabase = getSupabase(env);
-
-        const existing = await supabase
+        try {
+            console.log(`Checking ${value} is available`);
+            console.log(`colum: ${column}`);
+            console.log(`value: ${value}`);
+            const supabase = getSupabase(env);
+            
+            const {data, error} = await supabase
             .from('profiles')
             .select(column)
             .eq(column, value)
             .maybeSingle();
-
-            return existing.data == null ? true : false;
-        
-        // const existingEmail = await isAvailable('email', email);        
-        // if (existingEmail) throw new Error ('CONFLICT_EMAIL');
-        
-        // const existingUserId = await isAvailable('user_id', userId);
-        // if (existingUserId) throw new Error ('CONFLICT_USER_ID');
-        
-        // console.log('calling supabase signup');
-        // console.log(`${env.API_URL}/api/v1/auth/callback`);
-        // const { data, error } = await supabase.auth.signUp({
-        //     email,
-        //     password,
-        //     options : {emailRedirectTo: `${env.API_URL}/api/v1/auth/callback`}
-        // });
-
-        // if (error) throw error;
-
-        // if (data.user) {
-        //     await supabase.from('profiles').insert({ id: data.user.id, user_id: userId, email: email});
-        // } 
-
-        // return false;
+            
+            if(error) throw new Error(error.message);
+            return true;
+        } catch (e: any) {
+            console.log(`[Error] ${e}`);
+            throw new Error(e);
+        }
     }
-
-    async createProfile(env: any, Id: String, userId: String, displayName: String, email: String): Promise<any> {
+    
+    async createProfile(env: any, id: String, userId: String, displayName: String, email: String): Promise<void> {
+        console.log(`Creating a user profile for ${id}`);
         const supabase = getSupabase(env);
         try {
-            const result = await supabase
-            .from('profile')
+            console.log(`id: ${id}`);
+            console.log(`userId: ${userId}`);
+            console.log(`displayName: ${displayName}`);
+            console.log(`email: ${email}`);
+
+            const {data, error} = await supabase
+            .from('profiles')
             .insert({
-                id: Id,
+                id: id,
                 user_id: userId,
                 display_name: displayName,
                 email: email
             });
-            return result;
-        } catch (error) {
-            console.log(error);
-            throw new Error('Failed to create user profile');
+            if (error) throw error.message;
+        } catch (error: any) {
+            console.log(`[Error] Creating a user profile for ${id}.`);
+            console.log(`[Error] ${error}.`);
+            throw new Error(error);
         }
     }
 
