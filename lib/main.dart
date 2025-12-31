@@ -3,6 +3,8 @@ import 'package:yomiru/services/config_service.dart';
 import 'package:yomiru/frontend/shared/auth_check_screen.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:yomiru/frontend/routes/router.dart';
+import 'package:yomiru/utils/logger.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,28 +23,39 @@ void main() async {
     ),
   );
   
-  runApp(MaterialApp(
-    theme: ThemeData(
-      brightness: Brightness.light,
-      splashFactory: NoSplash.splashFactory,
-      highlightColor: Colors.transparent,
-      colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-    ),
-    darkTheme: ThemeData(
-      brightness: Brightness.dark,
-      splashFactory: NoSplash.splashFactory,
-      highlightColor: Colors.transparent,
-      colorScheme: ColorScheme.fromSeed(
-        seedColor: Colors.blue,
-        brightness: Brightness.dark,
+  Log.i('🚀 App Started with Supabase PKCE Flow');
+
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget{
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+
+    return MaterialApp(
+      title: 'yomiru',
+      theme: ThemeData(
+        brightness: Brightness.light,
+        splashFactory: NoSplash.splashFactory,
+        highlightColor: Colors.transparent,
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
       ),
-    ),
-    themeMode: ThemeMode.system, // システムの設定に従う
-    home: AuthCheckScreen(),
-    onGenerateRoute: (settings){
-      return MaterialPageRoute(
-        builder: (settings) => const AuthCheckScreen()
-      );
-    },
-  ));
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+        splashFactory: NoSplash.splashFactory,
+        highlightColor: Colors.transparent,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.blue,
+          brightness: Brightness.dark,
+        ),
+      ),
+      themeMode: ThemeMode.system, // システムの設定に従う
+      initialRoute: AppRouter.root,
+      onGenerateRoute: AppRouter.generateRoute,
+
+      debugShowCheckedModeBanner: false,
+    );
+  }
 }
