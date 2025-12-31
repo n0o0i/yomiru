@@ -1918,10 +1918,10 @@ var require_cjs = __commonJS({
   }
 });
 
-// .wrangler/tmp/bundle-fY5hgC/middleware-loader.entry.ts
+// .wrangler/tmp/bundle-JV7eAh/middleware-loader.entry.ts
 init_modules_watch_stub();
 
-// .wrangler/tmp/bundle-fY5hgC/middleware-insertion-facade.js
+// .wrangler/tmp/bundle-JV7eAh/middleware-insertion-facade.js
 init_modules_watch_stub();
 
 // backend/src/index.ts
@@ -15312,6 +15312,21 @@ var AuthService = class {
     const existing = await supabase.from("profiles").select(column).eq(column, value).maybeSingle();
     return existing.data == null ? true : false;
   }
+  async createProfile(env, Id, userId, displayName, email) {
+    const supabase = getSupabase(env);
+    try {
+      const result = await supabase.from("profile").insert({
+        id: Id,
+        user_id: userId,
+        display_name: displayName,
+        email
+      });
+      return result;
+    } catch (error) {
+      console.log(error);
+      throw new Error("Failed to create user profile");
+    }
+  }
   async exchangeCodeForSession(env, code) {
     const supabase = getSupabase(env);
     return await supabase.auth.exchangeCodeForSession(code);
@@ -15372,6 +15387,30 @@ var AuthController = class {
         }, status);
       }
     }, "isEmailAndIdAvailable");
+    this.createProfile = /* @__PURE__ */ __name(async (c) => {
+      try {
+        const { id, userId, displayName, email } = await c.req.json();
+        const result = await this.authService.createProfile(c.env, id, userId, displayName, email);
+        console.log(result);
+        if (result.status == 201) {
+          return c.json({
+            success: true,
+            message: result.statusText
+          }, 201);
+        } else {
+          return c.json({
+            success: false,
+            message: "Failed to create user profile"
+          }, 400);
+        }
+      } catch (e) {
+        console.log(e);
+        return c.json({
+          success: false,
+          message: e.message
+        }, 400);
+      }
+    }, "createProfile");
     this.signUpCallback = /* @__PURE__ */ __name(async (c) => {
       const code = c.req.query("code");
       if (!code) {
@@ -15430,6 +15469,7 @@ var authService = new AuthService();
 var router2 = new Hono2();
 var authController = new AuthController();
 router2.post("/isEmailAndIdAvailable", authController.isEmailAndIdAvailable);
+router2.post("/createProfile", authController.createProfile);
 router2.get("/callback", authController.signUpCallback);
 router2.post("/login", async (c) => {
   try {
@@ -15542,7 +15582,7 @@ var jsonError = /* @__PURE__ */ __name(async (request, env, _ctx, middlewareCtx)
 }, "jsonError");
 var middleware_miniflare3_json_error_default = jsonError;
 
-// .wrangler/tmp/bundle-fY5hgC/middleware-insertion-facade.js
+// .wrangler/tmp/bundle-JV7eAh/middleware-insertion-facade.js
 var __INTERNAL_WRANGLER_MIDDLEWARE__ = [
   middleware_ensure_req_body_drained_default,
   middleware_miniflare3_json_error_default
@@ -15575,7 +15615,7 @@ function __facade_invoke__(request, env, ctx, dispatch, finalMiddleware) {
 }
 __name(__facade_invoke__, "__facade_invoke__");
 
-// .wrangler/tmp/bundle-fY5hgC/middleware-loader.entry.ts
+// .wrangler/tmp/bundle-JV7eAh/middleware-loader.entry.ts
 var __Facade_ScheduledController__ = class ___Facade_ScheduledController__ {
   constructor(scheduledTime, cron, noRetry) {
     this.scheduledTime = scheduledTime;

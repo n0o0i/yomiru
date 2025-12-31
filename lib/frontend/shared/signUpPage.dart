@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import '../../services/api_client.dart';
+import 'package:yomiru/frontend/shared/profileSettingPage.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -50,7 +51,12 @@ class _SignUpPageState extends State<SignUpPage> {
     });
 
     try {
-      await _apiClient.signUp(_emailController.text, _passwordController.text, _userIdController.text);
+      // await _apiClient.signUp(_emailController.text, _passwordController.text, _userIdController.text);
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => ProfileSetupPage()),
+        (route) => false
+      );
     } catch (e) {
       setState(() {
         _errorMessage = e.toString();

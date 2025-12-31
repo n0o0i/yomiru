@@ -17,6 +17,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final ApiClient _apiClient = ApiClient();
   bool _isLoading = false;
   bool _isLoginFailed = false;
+  String _errorMessage = '';
 
   Future<void> _handleLogin() async {
     setState(() => _isLoading = true);
@@ -32,6 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
       if (mounted) {
           // SnackBar(content: Text('ログイン失敗: ${e.toString()}')),
         setState(() => _isLoginFailed = true,);
+        setState(() => _errorMessage = e.toString(),);
       }
     } finally {
       setState(() => _isLoading = false);
@@ -107,7 +109,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 Padding(
                   padding: const EdgeInsets.only(bottom: 8.0),
                   child: Text(
-                    'ログインに失敗しました。',                    
+                    _errorMessage,                    
                     style: TextStyle(
                       color: Colors.red.shade700,
                       fontWeight: FontWeight.bold,

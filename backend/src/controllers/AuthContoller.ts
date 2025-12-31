@@ -39,6 +39,31 @@ export class AuthController {
         }
     }
 
+    public createProfile = async (c: Context) => {
+        try {
+            const {id, userId, displayName, email} = await c.req.json();
+            const result = await this.authService.createProfile(c.env, id, userId,displayName, email);
+            console.log(result);
+            if(result.status == 201) {
+                return c.json({
+                    success: true,
+                    message: result.statusText
+                }, 201)
+            } else {
+                return c.json({
+                    success: false,
+                    message: 'Failed to create user profile'
+                }, 400)
+            }
+        } catch (e: any) {
+            console.log(e);
+            return c.json({
+                success: false,
+                message: e.message
+            }, 400);
+        }
+    }
+
     public signUpCallback = async (c: Context) => {
         const code = c.req.query('code');
         if (!code) {

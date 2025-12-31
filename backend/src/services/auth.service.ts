@@ -1,3 +1,4 @@
+import { EmailOptions } from "joi";
 import { getSupabase } from "../db/supabase";
 import { AuthSession } from '@supabase/supabase-js'
 
@@ -40,6 +41,24 @@ export class AuthService {
         // } 
 
         // return false;
+    }
+
+    async createProfile(env: any, Id: String, userId: String, displayName: String, email: String): Promise<any> {
+        const supabase = getSupabase(env);
+        try {
+            const result = await supabase
+            .from('profile')
+            .insert({
+                id: Id,
+                user_id: userId,
+                display_name: displayName,
+                email: email
+            });
+            return result;
+        } catch (error) {
+            console.log(error);
+            throw new Error('Failed to create user profile');
+        }
     }
 
     async exchangeCodeForSession(env: any, code: any) {

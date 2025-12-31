@@ -16,6 +16,7 @@ const authController = new AuthController;
 
 // POST /api/v1/auth/isEmailAndIdAvailable
 router.post('/isEmailAndIdAvailable', authController.isEmailAndIdAvailable);
+router.post('/createProfile', authController.createProfile);
 
 router.get('/callback', authController.signUpCallback);
 
