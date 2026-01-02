@@ -8,7 +8,7 @@ import 'package:yomiru/utils/logger.dart';
 class AppRouter {
   static const String root = '/';
   static const String login = '/login';
-  static const String profileSetup = '/profile-setup';
+  static const String profileSetup = '/profileSetup';
   static const String home = '/home';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
