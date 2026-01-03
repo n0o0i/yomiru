@@ -6,6 +6,7 @@ import 'config_service.dart';
 import 'dart:io' show Platform;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:yomiru/utils/logger.dart';
 
 class ApiClient {
   SupabaseClient get _supabase => Supabase.instance.client;
@@ -126,10 +127,12 @@ class ApiClient {
   }
 
   Future<void> logout() async {
-    // FIXME!!!! add backend for logout
-
-    await _strage.delete(key: 'access_token');
-    await _strage.delete(key: 'refresh_token');
+    try {
+      Log.i('User requested sign out');
+      await _supabase.auth.signOut();
+    } catch (e) {
+      Log.e('Sign out failed', e);
+    }
   }
 
   Future<List<BookRelation>> fetchMyBooks() async {

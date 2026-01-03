@@ -21,9 +21,10 @@ export class AuthService {
             .select(column)
             .eq(column, value)
             .maybeSingle();
-            
+            console.log(data);
+            console.log(data == null);
             if(error) throw new Error(error.message);
-            return true;
+            return data == null? true: false;
         } catch (e: any) {
             console.log(`[Error] ${e}`);
             throw new Error(e);

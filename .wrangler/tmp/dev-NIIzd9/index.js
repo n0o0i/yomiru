@@ -1918,10 +1918,10 @@ var require_cjs = __commonJS({
   }
 });
 
-// .wrangler/tmp/bundle-th9n9s/middleware-loader.entry.ts
+// .wrangler/tmp/bundle-6tJmJB/middleware-loader.entry.ts
 init_modules_watch_stub();
 
-// .wrangler/tmp/bundle-th9n9s/middleware-insertion-facade.js
+// .wrangler/tmp/bundle-6tJmJB/middleware-insertion-facade.js
 init_modules_watch_stub();
 
 // backend/src/index.ts
@@ -15314,8 +15314,10 @@ var AuthService = class {
       console.log(`value: ${value}`);
       const supabase = getSupabase(env);
       const { data, error } = await supabase.from("profiles").select(column).eq(column, value).maybeSingle();
+      console.log(data);
+      console.log(data == null);
       if (error) throw new Error(error.message);
-      return true;
+      return data == null ? true : false;
     } catch (e) {
       console.log(`[Error] ${e}`);
       throw new Error(e);
@@ -15378,7 +15380,7 @@ var AuthController = class {
       try {
         const { column, value } = await c.req.json();
         console.log(`Checking ${value} is available.`);
-        const isEmailAvailable = await this.authService.isAvailable(c.env, "email", value);
+        const isEmailAvailable = await this.authService.isAvailable(c.env, column, value);
         if (!isEmailAvailable) {
           console.log(`[Error] ${value} already exists`);
           return c.json({
@@ -15592,7 +15594,7 @@ var jsonError = /* @__PURE__ */ __name(async (request, env, _ctx, middlewareCtx)
 }, "jsonError");
 var middleware_miniflare3_json_error_default = jsonError;
 
-// .wrangler/tmp/bundle-th9n9s/middleware-insertion-facade.js
+// .wrangler/tmp/bundle-6tJmJB/middleware-insertion-facade.js
 var __INTERNAL_WRANGLER_MIDDLEWARE__ = [
   middleware_ensure_req_body_drained_default,
   middleware_miniflare3_json_error_default
@@ -15625,7 +15627,7 @@ function __facade_invoke__(request, env, ctx, dispatch, finalMiddleware) {
 }
 __name(__facade_invoke__, "__facade_invoke__");
 
-// .wrangler/tmp/bundle-th9n9s/middleware-loader.entry.ts
+// .wrangler/tmp/bundle-6tJmJB/middleware-loader.entry.ts
 var __Facade_ScheduledController__ = class ___Facade_ScheduledController__ {
   constructor(scheduledTime, cron, noRetry) {
     this.scheduledTime = scheduledTime;

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:yomiru/frontend/shared/strings.dart';
 import 'package:yomiru/frontend/Settings/accoutSettings.dart';
 import 'package:yomiru/services/api_client.dart';
-import '../shared/login_screen.dart';
 
 class SettingsHome extends StatefulWidget {
   const SettingsHome({super.key});
@@ -42,8 +41,9 @@ class _SettingsHomeState extends State<SettingsHome> {
     try {
       await _apiClient.logout();
       if (mounted) {
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => const LoginScreen())
+        Navigator.of(context).pushNamedAndRemoveUntil(
+          '/login',
+          (route) => false
         );
       }
     } catch (e) {

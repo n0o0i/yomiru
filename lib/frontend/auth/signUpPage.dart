@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/gestures.dart';
 import '../../services/api_client.dart';
-import 'package:yomiru/frontend/shared/profileSettingPage.dart';
+import 'package:yomiru/frontend/auth/profileSettingPage.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -50,16 +49,20 @@ class _SignUpPageState extends State<SignUpPage> {
     });
 
     try {
-      // await _apiClient.signUp(_emailController.text, _passwordController.text);
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (context) => ProfileSetupPage()),
-        (route) => false
-      );
+      await _apiClient.signUp(_emailController.text, _passwordController.text);
+        Navigator.of(context).pushNamedAndRemoveUntil(
+          '/emailSent',
+          (route) => false
+        );
     } catch (e) {
       setState(() {
-        _errorMessage = e.toString();
-        _isError = true;
+        if (e == 'CONFLICT_VALUE') {
+          _errorMessage = 'このメールアドレスはすでに登録済みです。\nログインしてください。';
+          _isError = true;
+        } else {
+          _errorMessage = e.toString();
+          _isError = true;
+        }
       });
     } finally {
       setState(() {
@@ -138,7 +141,11 @@ class _SignUpPageState extends State<SignUpPage> {
                 if (_isError)
                   Padding(
                     padding: const EdgeInsets.only(bottom: 16),
-                    child: Text(_errorMessage!, style: TextStyle(color: Colors.red),),
+                    child: Text(
+                      _errorMessage!, 
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: Colors.red),
+                    ),
                   ),
                 _isLoading
                     ? const CircularProgressIndicator()

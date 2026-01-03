@@ -8,7 +8,7 @@ class Log {
       lineLength: 80,
       colors: true,
       printEmojis: true,
-      dateTimeFormat: DateTimeFormat.dateAndTime
+      // dateTimeFormat: DateTimeFormat.dateAndTime
     )
   );
 

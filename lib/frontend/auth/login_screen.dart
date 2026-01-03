@@ -2,7 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:yomiru/services/api_client.dart';
 import '../homePage.dart';
-import './signUpPage.dart';
+import 'signUpPage.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});

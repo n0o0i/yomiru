@@ -13,7 +13,7 @@ export class AuthController {
         try {
             const { column, value } = await c.req.json();
             console.log(`Checking ${value} is available.`);
-            const isEmailAvailable = await this.authService.isAvailable(c.env, 'email', value);
+            const isEmailAvailable = await this.authService.isAvailable(c.env, column, value);
             
             if(!isEmailAvailable){
                 console.log(`[Error] ${value} already exists`);
