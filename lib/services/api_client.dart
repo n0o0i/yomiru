@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../models/book_relation.dart';
 import 'config_service.dart';
-import 'dart:io' show Platform;
+// import 'dart:io' show Platform;
+import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:yomiru/utils/logger.dart';
@@ -16,11 +17,11 @@ class ApiClient {
     String base = ConfigService.apiBaseUrl;
 
     if (base.contains('localhost')) {
-      if (Platform.isAndroid) {
-        // Androidの場合のみ置換
+      if(kIsWeb) {
+        return base;
+      }
+      if (defaultTargetPlatform == TargetPlatform.android) {
         base = base.replaceAll('localhost', '10.0.2.2');
-      } else if (Platform.isIOS) {
-        // iOSの場合、localhostのまま (置換しない)
       }
     }
       
