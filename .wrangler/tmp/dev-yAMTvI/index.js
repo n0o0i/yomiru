@@ -1918,10 +1918,10 @@ var require_cjs = __commonJS({
   }
 });
 
-// .wrangler/tmp/bundle-6tJmJB/middleware-loader.entry.ts
+// .wrangler/tmp/bundle-ZOObm3/middleware-loader.entry.ts
 init_modules_watch_stub();
 
-// .wrangler/tmp/bundle-6tJmJB/middleware-insertion-facade.js
+// .wrangler/tmp/bundle-ZOObm3/middleware-insertion-facade.js
 init_modules_watch_stub();
 
 // backend/src/index.ts
@@ -15533,7 +15533,17 @@ v1.route("/auth", router2);
 // backend/src/index.ts
 var app = new Hono2();
 app.use("*", secureHeaders());
-app.use("*", cors());
+app.use("*", cors(
+  {
+    origin: "http://localhost:62814",
+    // Flutter Webの実行URL（ポート番号に注意）
+    allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowHeaders: ["Content-Type", "Authorization"],
+    exposeHeaders: ["Content-Length"],
+    maxAge: 600,
+    credentials: true
+  }
+));
 app.use("*", logger());
 app.route("/api/v1", v1);
 app.notFound((c) => {
@@ -15594,7 +15604,7 @@ var jsonError = /* @__PURE__ */ __name(async (request, env, _ctx, middlewareCtx)
 }, "jsonError");
 var middleware_miniflare3_json_error_default = jsonError;
 
-// .wrangler/tmp/bundle-6tJmJB/middleware-insertion-facade.js
+// .wrangler/tmp/bundle-ZOObm3/middleware-insertion-facade.js
 var __INTERNAL_WRANGLER_MIDDLEWARE__ = [
   middleware_ensure_req_body_drained_default,
   middleware_miniflare3_json_error_default
@@ -15627,7 +15637,7 @@ function __facade_invoke__(request, env, ctx, dispatch, finalMiddleware) {
 }
 __name(__facade_invoke__, "__facade_invoke__");
 
-// .wrangler/tmp/bundle-6tJmJB/middleware-loader.entry.ts
+// .wrangler/tmp/bundle-ZOObm3/middleware-loader.entry.ts
 var __Facade_ScheduledController__ = class ___Facade_ScheduledController__ {
   constructor(scheduledTime, cron, noRetry) {
     this.scheduledTime = scheduledTime;

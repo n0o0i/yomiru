@@ -41,7 +41,16 @@ const app = new Hono<{ Bindings: Bindings, Variables: Variables}>();
 // app.use(express.json()); // JSONパーサー
 // app.use(express.urlencoded({ extended: true })); // URLエンコードパーサー
 app.use('*', secureHeaders());
-app.use('*', cors());
+app.use('*', cors(
+  {
+  origin: 'http://localhost:62814', // Flutter Webの実行URL（ポート番号に注意）
+  allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowHeaders: ['Content-Type', 'Authorization'],
+  exposeHeaders: ['Content-Length'],
+  maxAge: 600,
+  credentials: true,
+}
+));
 app.use('*', logger());
 
 // ルートの設定
