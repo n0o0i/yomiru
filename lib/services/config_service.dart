@@ -11,7 +11,7 @@ class ConfigService {
   // API設定
   // static String get apiBaseUrl => _prefs?.getString('api_base_url') ?? 'http://localhost:8787/';
   static String get apiDevBaseUrl => 'http://localhost:8787/api';
-  static String get apiReleaseBaseUrl => 'https://yomiru.701-jp.workers.dev/api';
+  static String get apiReleaseBaseUrl => 'yomiru-backend.701-jp.workers.dev/api';
   static String get googleBooksApiKey => _prefs?.getString('google_books_api_key') ?? '';
   
   // アプリ設定
