@@ -50,7 +50,7 @@ class MyApp extends StatelessWidget{
           brightness: Brightness.dark,
         ),
       ),
-      // themeMode: ThemeMode.system, // システムの設定に従う
+      themeMode: ThemeMode.light, // システムの設定に従う
       initialRoute: AppRouter.root,
       onGenerateRoute: AppRouter.generateRoute,
 
