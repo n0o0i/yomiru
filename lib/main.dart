@@ -41,16 +41,16 @@ class MyApp extends StatelessWidget{
         highlightColor: Colors.transparent,
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
       ),
-      darkTheme: ThemeData(
-        brightness: Brightness.dark,
-        splashFactory: NoSplash.splashFactory,
-        highlightColor: Colors.transparent,
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.blue,
-          brightness: Brightness.dark,
-        ),
-      ),
-      themeMode: ThemeMode.light, // システムの設定に従う
+      // darkTheme: ThemeData(
+      //   brightness: Brightness.dark,
+      //   splashFactory: NoSplash.splashFactory,
+      //   highlightColor: Colors.transparent,
+      //   colorScheme: ColorScheme.fromSeed(
+      //     seedColor: Colors.blue,
+      //     brightness: Brightness.dark,
+      //   ),
+      // ),
+      themeMode: ThemeMode.light,
       initialRoute: AppRouter.root,
       onGenerateRoute: AppRouter.generateRoute,
 
