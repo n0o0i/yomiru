@@ -1,4 +1,4 @@
-name = "yomiru-backend"
+name = "yomiru"
 main = "backend/src/index.ts"
 compatibility_date = "2025-12-01"
 
