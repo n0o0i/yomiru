@@ -43,7 +43,7 @@ const app = new Hono<{ Bindings: Bindings, Variables: Variables}>();
 app.use('*', secureHeaders());
 app.use('*', cors(
   {
-  origin: 'http://localhost:62814', // Flutter Webの実行URL（ポート番号に注意）
+  origin: 'https://yomiru.701-jp.workers.dev', // Flutter Webの実行URL（ポート番号に注意）
   allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowHeaders: ['Content-Type', 'Authorization'],
   exposeHeaders: ['Content-Length'],

@@ -14,7 +14,13 @@ class ApiClient {
 
   late Dio _dio;
   static String get _baseUrl {
-    String base = ConfigService.apiBaseUrl;
+    String base;
+
+    if (kReleaseMode) {
+      base = ConfigService.apiReleaseBaseUrl;
+    } else {
+      base = ConfigService.apiDevBaseUrl;
+    }
 
     if (base.contains('localhost')) {
       if(kIsWeb) {
