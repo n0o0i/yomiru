@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:yomiru/services/config_service.dart';
 
 class ApiService {
-  static String get baseUrl => ConfigService.apiBaseUrl;
+  static String get baseUrl => ConfigService.apiReleaseBaseUrl;
   
   // Google Books APIで本を検索
   static Future<List<Map<String, dynamic>>> searchBooks(String query) async {
