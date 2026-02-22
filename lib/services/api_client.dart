@@ -68,7 +68,7 @@ class ApiClient {
         email: email,
         password: password,
         // emailRedirectTo: 'http://localhost:8787/api/v1/auth/callback'
-        emailRedirectTo: 'https://yomiru.701-jp.workers.dev'
+        emailRedirectTo: 'https://yomiru.701-jp.workers.dev/api/v1/auth/callback'
       );
     } on DioException catch (e) {
       throw e.response?.data['message'] ?? 'サインアップに失敗しました';
