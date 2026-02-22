@@ -67,7 +67,8 @@ class ApiClient {
       await _supabase.auth.signUp(
         email: email,
         password: password,
-        emailRedirectTo: 'http://localhost:8787/api/v1/auth/callback'
+        // emailRedirectTo: 'http://localhost:8787/api/v1/auth/callback'
+        emailRedirectTo: 'https://yomiru.701-jp.workers.dev'
       );
     } on DioException catch (e) {
       throw e.response?.data['message'] ?? 'サインアップに失敗しました';
