@@ -40,17 +40,17 @@ const app = new Hono<{ Bindings: Bindings, Variables: Variables}>();
 // app.use(morgan('combined')); // ログ出力
 // app.use(express.json()); // JSONパーサー
 // app.use(express.urlencoded({ extended: true })); // URLエンコードパーサー
-app.use('*', secureHeaders());
-app.use('*', cors(
+app.use("*", cors(
   {
-  origin: 'https://f420041b.yomiru.pages.dev', // Flutter Webの実行URL（ポート番号に注意）
-  allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowHeaders: ['Content-Type', 'Authorization'],
-  exposeHeaders: ['Content-Length'],
-  maxAge: 600,
-  credentials: true,
-}
+    origin: 'https://yomiru.pages.dev', // Flutter Webの実行URL（ポート番号に注意）
+    allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowHeaders: ['Content-Type', 'Authorization'],
+    exposeHeaders: ['Content-Length'],
+    maxAge: 600,
+    credentials: true,
+  }
 ));
+app.use('*', secureHeaders());
 app.use('*', logger());
 
 // ルートの設定
